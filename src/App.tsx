@@ -39,8 +39,8 @@ const AppContent: React.FC = () => {
     return <AdminDashboard />;
   }
 
-  if (showAdminLogin || (user && !isAdmin)) {
-    return <AdminLogin />;
+  if (showAdminLogin) {
+    return <AdminLogin onClose={() => setShowAdminLogin(false)} />;
   }
 
   const renderSection = () => {

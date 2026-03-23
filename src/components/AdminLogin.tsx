@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Lock, User, LogIn } from 'lucide-react';
+import { Lock, User, LogIn, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-const AdminLogin: React.FC = () => {
+interface AdminLoginProps {
+  onClose?: () => void;
+}
+
+const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,7 +30,17 @@ const AdminLogin: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 relative">
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Жабу"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          )}
+
           <div className="flex justify-center mb-6">
             <div className="bg-gradient-to-br from-blue-600 to-green-600 p-4 rounded-full">
               <Lock className="w-8 h-8 text-white" />
