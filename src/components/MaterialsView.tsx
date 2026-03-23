@@ -40,8 +40,6 @@ const MaterialsView: React.FC = () => {
         chapter: m.chapter,
         description: m.description,
         uploadDate: m.upload_date,
-        size: m.size,
-        url: m.url,
         link: m.link
       })));
     }
@@ -212,9 +210,9 @@ const MaterialsView: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-center">
-                    {(material.link || (material.url && material.url !== '#')) && (
+                    {material.link && (
                       <a
-                        href={material.link || material.url}
+                        href={material.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
@@ -242,9 +240,9 @@ const MaterialsView: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    {(material.link || (material.url && material.url !== '#')) && (
+                    {material.link && (
                       <a
-                        href={material.link || material.url}
+                        href={material.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"

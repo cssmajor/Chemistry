@@ -80,8 +80,6 @@ const AdminMaterials: React.FC = () => {
     type: 'pdf' as 'pdf' | 'doc' | 'ppt' | 'image' | 'video',
     chapter: '1-тарау: Негізгі ұғымдар',
     description: '',
-    size: '',
-    url: '',
     link: ''
   });
 
@@ -121,8 +119,6 @@ const AdminMaterials: React.FC = () => {
         chapter: m.chapter,
         description: m.description,
         uploadDate: m.upload_date,
-        size: m.size,
-        url: m.url,
         link: m.link
       })));
     }
@@ -158,8 +154,6 @@ const AdminMaterials: React.FC = () => {
           type: formData.type,
           chapter: formData.chapter,
           description: formData.description,
-          size: formData.size,
-          url: formData.url,
           link: formData.link,
           updated_at: new Date().toISOString()
         })
@@ -179,8 +173,6 @@ const AdminMaterials: React.FC = () => {
           type: formData.type,
           chapter: formData.chapter,
           description: formData.description,
-          size: formData.size,
-          url: formData.url,
           link: formData.link,
           order_index: materials.length
         }]);
@@ -200,8 +192,6 @@ const AdminMaterials: React.FC = () => {
       type: material.type,
       chapter: material.chapter,
       description: material.description,
-      size: material.size || '',
-      url: material.url || '',
       link: material.link || ''
     });
     setEditingId(material.id);
@@ -229,8 +219,6 @@ const AdminMaterials: React.FC = () => {
       type: 'pdf',
       chapter: '1-тарау: Негізгі ұғымдар',
       description: '',
-      size: '',
-      url: '',
       link: ''
     });
     setEditingId(null);
@@ -300,29 +288,6 @@ const AdminMaterials: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={3}
             />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Өлшемі</label>
-              <input
-                type="text"
-                value={formData.size}
-                onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="4.5 MB"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">URL</label>
-              <input
-                type="url"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://"
-              />
-            </div>
           </div>
 
           <div>
