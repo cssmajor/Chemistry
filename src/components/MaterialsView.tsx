@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Image, Video, Download, Search, Eye, Calendar, File as FileIcon, Link } from 'lucide-react';
+import { FileText, Image, Video, Search, Eye, File as FileIcon } from 'lucide-react';
 import { Material } from '../types';
 import { supabase } from '../lib/supabase';
 
@@ -207,44 +207,21 @@ const MaterialsView: React.FC = () => {
                       {material.title}
                     </h3>
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2">{material.description}</p>
-                    <div className="space-y-2 text-xs text-gray-500">
-                      <div className="bg-gray-50 px-3 py-1.5 rounded-lg text-center font-medium">{material.chapter}</div>
-                      {material.link && (
-                        <div className="text-blue-600 text-xs flex items-center justify-center">
-                          <Link className="w-3 h-3 inline mr-1" />
-                          <a href={material.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                            Сілтеме
-                          </a>
-                        </div>
-                      )}
-                      <div className="flex justify-between">
-                        <span className="flex items-center"><Calendar className="w-3 h-3 inline mr-1" />{material.uploadDate}</span>
-                        {material.size && <span className="font-medium">{material.size}</span>}
-                      </div>
+                    <div className="space-y-2">
+                      <div className="bg-gray-50 px-3 py-1.5 rounded-lg text-center font-medium text-xs text-gray-700">{material.chapter}</div>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex justify-center">
                     {(material.link || (material.url && material.url !== '#')) && (
-                      <>
-                        <a
-                          href={material.link || material.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center space-x-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2.5 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
-                        >
-                          <Eye className="w-4 h-4" />
-                          <span>Көру</span>
-                        </a>
-                        <a
-                          href={material.link || material.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center space-x-1 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2.5 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 text-sm font-medium shadow-sm"
-                        >
-                          <Download className="w-4 h-4" />
-                          <span>Жүктеу</span>
-                        </a>
-                      </>
+                      <a
+                        href={material.link || material.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>Көру</span>
+                      </a>
                     )}
                   </div>
                 </div>
@@ -261,39 +238,20 @@ const MaterialsView: React.FC = () => {
                       <p className="text-gray-600 mb-2 text-sm">{material.description}</p>
                       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
                         <span className="bg-gray-50 px-3 py-1 rounded-lg font-medium">{material.chapter}</span>
-                        {material.link && (
-                          <a href={material.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm flex items-center">
-                            <Link className="w-3 h-3 mr-1" />
-                            Сілтеме
-                          </a>
-                        )}
-                        <span className="flex items-center"><Calendar className="w-3 h-3 inline mr-1" />{material.uploadDate}</span>
-                        {material.size && <span className="font-medium">{material.size}</span>}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center">
                     {(material.link || (material.url && material.url !== '#')) && (
-                      <>
-                        <a
-                          href={material.link || material.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center space-x-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
-                        >
-                          <Eye className="w-4 h-4" />
-                          <span>Көру</span>
-                        </a>
-                        <a
-                          href={material.link || material.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center space-x-1 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2.5 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 text-sm font-medium shadow-sm"
-                        >
-                          <Download className="w-4 h-4" />
-                          <span>Жүктеп алу</span>
-                        </a>
-                      </>
+                      <a
+                        href={material.link || material.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>Көру</span>
+                      </a>
                     )}
                   </div>
                 </div>
@@ -301,32 +259,6 @@ const MaterialsView: React.FC = () => {
             </div>
           ))
         )}
-      </div>
-
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Тараулар бойынша материалдар</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {chapters.map((chapter, index) => {
-            const chapterMaterials = materials.filter(m => m.chapter === chapter);
-            return (
-              <div key={chapter} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="bg-gradient-to-br from-blue-600 to-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md">
-                    {index + 1}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{chapter}</h3>
-                </div>
-                <p className="text-sm text-gray-600 mb-4 font-medium">{chapterMaterials.length} материал қолжетімді</p>
-                <button
-                  onClick={() => setSelectedChapter(chapter)}
-                  className="w-full bg-gradient-to-r from-blue-50 to-green-50 text-blue-700 py-2.5 px-4 rounded-lg hover:from-blue-100 hover:to-green-100 transition-all duration-300 font-medium border border-blue-200"
-                >
-                  Материалдарды көру
-                </button>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
