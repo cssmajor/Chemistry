@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, User, LogIn, X } from 'lucide-react';
+import { Lock, User, LogIn, X, Home } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface AdminLoginProps {
@@ -11,7 +11,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, isAdmin } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +22,6 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
       await signIn(email, password);
     } catch (err) {
       setError('Жарамсыз куәліктер. Қайтадан көріңіз.');
-    } finally {
       setLoading(false);
     }
   };
@@ -31,15 +30,13 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 p-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 relative">
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Жабу"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          )}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Жабу"
+          >
+            <X className="w-6 h-6" />
+          </button>
 
           <div className="flex justify-center mb-6">
             <div className="bg-gradient-to-br from-blue-600 to-green-600 p-4 rounded-full">
@@ -113,6 +110,16 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
               )}
             </button>
           </form>
+
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <button
+              onClick={onClose}
+              className="w-full flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-900 py-3 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium"
+            >
+              <Home className="w-5 h-5" />
+              <span>Басты бетке оралу</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
