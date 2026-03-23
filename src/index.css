@@ -104,20 +104,22 @@ html {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(241, 245, 249, 0.5);
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
-  border-radius: 4px;
+  background: linear-gradient(to bottom, #3b82f6, #10b981);
+  border-radius: 5px;
+  border: 2px solid rgba(241, 245, 249, 0.8);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #7c3aed, #2563eb);
+  background: linear-gradient(to bottom, #2563eb, #059669);
 }
 
 /* Mobile responsiveness */
@@ -139,15 +141,22 @@ html {
 
 /* Enhanced button hover effects */
 button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button:hover {
-  transform: translateY(-1px);
+button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-button:active {
+button:not(:disabled):active {
   transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Card hover effects */
@@ -156,8 +165,18 @@ button:active {
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.2), 0 10px 20px -5px rgba(16, 185, 129, 0.1);
+}
+
+/* Improved border transitions */
+.border-transition {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.border-transition:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* Gradient text */

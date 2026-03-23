@@ -1,0 +1,371 @@
+import React, { useState, useEffect } from 'react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { VideoItem } from '../../types';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+interface SortableItemProps {
+  video: VideoItem;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: video.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white border border-gray-200 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
+    >
+      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
+        <GripVertical className="w-5 h-5 text-gray-400" />
+      </div>
+      <div className="flex-1">
+        <h3 className="font-semibold text-gray-900">{video.title}</h3>
+        <p className="text-sm text-gray-600">{video.chapter}</p>
+      </div>
+      <div className="flex space-x-2">
+        <button
+          onClick={onEdit}
+          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+        >
+          <Edit className="w-4 h-4" />
+        </button>
+        <button
+          onClick={onDelete}
+          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const AdminVideos: React.FC = () => {
+  const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | number | null>(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    thumbnail: '',
+    duration: '',
+    chapter: '1-тарау: Негізгі ұғымдар',
+    url: ''
+  });
+
+  const chapters = [
+    '1-тарау: Негізгі ұғымдар',
+    '2-тарау: Атом құрылысы',
+    '3-тарау: Химиялық байланыс',
+    '4-тарау: Химиялық реакциялар',
+    '5-тарау: Қышқылдар мен негіздер',
+    '6-тарау: Органикалық химия'
+  ];
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    const { data, error } = await supabase
+      .from('videos')
+      .select('*')
+      .order('order_index', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching videos:', error);
+    } else if (data) {
+      setVideos(data.map((v: any) => ({
+        id: v.id,
+        title: v.title,
+        description: v.description,
+        thumbnail: v.thumbnail,
+        duration: v.duration,
+        chapter: v.chapter,
+        uploadDate: v.upload_date,
+        views: v.views,
+        url: v.url
+      })));
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = videos.findIndex((v) => v.id === active.id);
+      const newIndex = videos.findIndex((v) => v.id === over.id);
+
+      const newVideos = arrayMove(videos, oldIndex, newIndex);
+      setVideos(newVideos);
+
+      for (let i = 0; i < newVideos.length; i++) {
+        await supabase
+          .from('videos')
+          .update({ order_index: i })
+          .eq('id', newVideos[i].id);
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (editingId) {
+      const { error } = await supabase
+        .from('videos')
+        .update({
+          title: formData.title,
+          description: formData.description,
+          thumbnail: formData.thumbnail,
+          duration: formData.duration,
+          chapter: formData.chapter,
+          url: formData.url,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', editingId);
+
+      if (error) {
+        console.error('Error updating video:', error);
+      } else {
+        fetchVideos();
+        resetForm();
+      }
+    } else {
+      const { error } = await supabase
+        .from('videos')
+        .insert([{
+          title: formData.title,
+          description: formData.description,
+          thumbnail: formData.thumbnail,
+          duration: formData.duration,
+          chapter: formData.chapter,
+          url: formData.url,
+          order_index: videos.length
+        }]);
+
+      if (error) {
+        console.error('Error adding video:', error);
+      } else {
+        fetchVideos();
+        resetForm();
+      }
+    }
+  };
+
+  const handleEdit = (video: VideoItem) => {
+    setFormData({
+      title: video.title,
+      description: video.description,
+      thumbnail: video.thumbnail || '',
+      duration: video.duration || '',
+      chapter: video.chapter,
+      url: video.url
+    });
+    setEditingId(video.id);
+    setShowAddForm(true);
+  };
+
+  const handleDelete = async (id: string | number) => {
+    if (confirm('Бұл видеоны жойғыңыз келетініне сенімдісіз бе?')) {
+      const { error } = await supabase
+        .from('videos')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error deleting video:', error);
+      } else {
+        fetchVideos();
+      }
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      thumbnail: '',
+      duration: '',
+      chapter: '1-тарау: Негізгі ұғымдар',
+      url: ''
+    });
+    setEditingId(null);
+    setShowAddForm(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-gray-900">Видеоларды басқару</h2>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
+        >
+          {showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+          <span>{showAddForm ? 'Жабу' : 'Қосу'}</span>
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Атауы</label>
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Сипаттама</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              rows={3}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Тарау</label>
+              <select
+                value={formData.chapter}
+                onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {chapters.map(chapter => (
+                  <option key={chapter} value={chapter}>{chapter}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Ұзақтығы</label>
+              <input
+                type="text"
+                value={formData.duration}
+                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="15:30"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Видео URL</label>
+            <input
+              type="url"
+              value={formData.url}
+              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="https://youtube.com/..."
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Миниатюра URL</label>
+            <input
+              type="url"
+              value={formData.thumbnail}
+              onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div className="flex justify-end space-x-3">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors font-medium"
+            >
+              Бас тарту
+            </button>
+            <button
+              type="submit"
+              className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
+            >
+              <Save className="w-4 h-4" />
+              <span>{editingId ? 'Жаңарту' : 'Сақтау'}</span>
+            </button>
+          </div>
+        </form>
+      )}
+
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Барлық видеолар ({videos.length})
+        </h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Видеоларды қайта реттеу үшін оларды сүйреңіз
+        </p>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={videos.map(v => v.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-3">
+              {videos.map((video) => (
+                <SortableItem
+                  key={video.id}
+                  video={video}
+                  onEdit={() => handleEdit(video)}
+                  onDelete={() => handleDelete(video.id)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+      </div>
+    </div>
+  );
+};
+
+export default AdminVideos;

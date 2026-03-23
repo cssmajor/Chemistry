@@ -1,32 +1,53 @@
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Materials from './components/Materials';
+import MaterialsView from './components/MaterialsView';
+import VideosView from './components/VideosView';
 import TestsQuizzes from './components/TestsQuizzes';
-import Videos from './components/Videos';
 import Contact from './components/Contact';
-import { Section, Material, VideoItem, TestHistory } from './types';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
+import { Section, TestHistory } from './types';
 
-function App() {
+const AppContent: React.FC = () => {
+  const { user, isAdmin, loading } = useAuth();
   const [currentSection, setCurrentSection] = useState<Section>('home');
-  const [materials, setMaterials] = useState<Material[]>([]);
-  const [videos, setVideos] = useState<VideoItem[]>([]);
   const [testHistory, setTestHistory] = useState<TestHistory[]>([]);
 
-  const addTestResult = (result: TestHistory) => {
-    setTestHistory(prev => [result, ...prev.slice(0, 9)]);
+  const handleTestComplete = (result: TestHistory) => {
+    setTestHistory(prev => [result, ...prev]);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-green-50 to-blue-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 font-medium">Жүктелуде...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user && isAdmin) {
+    return <AdminDashboard />;
+  }
+
+  if (user && !isAdmin) {
+    return <AdminLogin />;
+  }
 
   const renderSection = () => {
     switch (currentSection) {
       case 'home':
         return <Home onSectionChange={setCurrentSection} />;
       case 'materials':
-        return <Materials materials={materials} setMaterials={setMaterials} />;
+        return <MaterialsView />;
       case 'videos':
-        return <Videos videos={videos} setVideos={setVideos} />;
+        return <VideosView />;
       case 'tests':
-        return <TestsQuizzes testHistory={testHistory} onTestComplete={addTestResult} />;
+        return <TestsQuizzes testHistory={testHistory} onTestComplete={handleTestComplete} />;
       case 'contact':
         return <Contact />;
       default:
@@ -35,10 +56,21 @@ function App() {
   };
 
   return (
-    <Layout currentSection={currentSection} onSectionChange={setCurrentSection}>
+    <Layout
+      currentSection={currentSection}
+      onSectionChange={setCurrentSection}
+    >
       {renderSection()}
     </Layout>
   );
-}
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+};
 
 export default App;

@@ -1,7 +1,7 @@
 export type Section = 'home' | 'materials' | 'videos' | 'tests' | 'contact';
 
 export interface Material {
-  id: number;
+  id: number | string;
   title: string;
   type: 'pdf' | 'doc' | 'ppt' | 'image' | 'video';
   chapter: string;
@@ -14,12 +14,15 @@ export interface Material {
 }
 
 export interface VideoItem {
-  id: number;
+  id: number | string;
   title: string;
   url: string;
   description: string;
   chapter: string;
   uploadDate: string;
+  thumbnail?: string;
+  duration?: string;
+  views?: number;
   isEditing?: boolean;
 }
 
@@ -53,7 +56,7 @@ export interface TestHistory {
 }
 
 export interface CustomTest {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   type: 'handwritten' | 'link';
