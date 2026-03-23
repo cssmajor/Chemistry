@@ -5,16 +5,15 @@ import Materials from './components/Materials';
 import TestsQuizzes from './components/TestsQuizzes';
 import Videos from './components/Videos';
 import Contact from './components/Contact';
-
-type Section = 'home' | 'materials' | 'videos' | 'tests' | 'contact';
+import { Section, Material, VideoItem, TestHistory } from './types';
 
 function App() {
   const [currentSection, setCurrentSection] = useState<Section>('home');
-  const [materials, setMaterials] = useState<any[]>([]); // ✅ works fine
-  const [videos, setVideos] = useState<any[]>([]);
-  const [testHistory, setTestHistory] = useState<any[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [testHistory, setTestHistory] = useState<TestHistory[]>([]);
 
-  const addTestResult = (result: any) => {
+  const addTestResult = (result: TestHistory) => {
     setTestHistory(prev => [result, ...prev.slice(0, 9)]);
   };
 
@@ -31,7 +30,7 @@ function App() {
       case 'contact':
         return <Contact />;
       default:
-        return <Home />;
+        return <Home onSectionChange={setCurrentSection} />;
     }
   };
 

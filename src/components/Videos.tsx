@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { Video, Plus, CreditCard as Edit, Save, Trash2, ExternalLink, Youtube, Play } from 'lucide-react';
-
-interface VideoItem {
-  id: number;
-  title: string;
-  url: string;
-  description: string;
-  chapter: string;
-  uploadDate: string;
-  isEditing?: boolean;
-}
+import { VideoItem } from '../types';
 
 interface VideosProps {
   videos: VideoItem[];

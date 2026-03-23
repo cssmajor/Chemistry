@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, FileText, Image, Video, Download, Search, Filter, Eye, Trash2, Calendar, File as FileIcon, Plus, Link, CreditCard as Edit, Save } from 'lucide-react';
-
-interface Material {
-  id: number;
-  title: string;
-  type: 'pdf' | 'doc' | 'ppt' | 'image' | 'video';
-  chapter: string;
-  description: string;
-  uploadDate: string;
-  size?: string;
-  url?: string;
-  link?: string;
-  isEditing?: boolean;
-}
+import { Material } from '../types';
 
 interface MaterialsProps {
   materials: Material[];

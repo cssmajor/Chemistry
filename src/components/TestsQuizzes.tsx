@@ -1,46 +1,6 @@
 import React, { useState } from 'react';
 import { Clock, Award, CheckCircle, XCircle, RotateCcw, History, TrendingUp, Target, Play, Plus, CreditCard as Edit, Save, Trash2, FileText, Link, Upload } from 'lucide-react';
-
-interface Question {
-  id: number;
-  question: string;
-  type: 'multiple-choice' | 'short-answer';
-  options?: string[];
-  correctAnswer: string | number;
-  explanation: string;
-}
-
-interface Quiz {
-  id: number;
-  title: string;
-  description: string;
-  chapter: string;
-  duration: number;
-  questions: Question[];
-  difficulty: 'Оңай' | 'Орташа' | 'Қиын';
-}
-
-interface TestHistory {
-  id: string;
-  quizTitle: string;
-  score: number;
-  totalQuestions: number;
-  date: string;
-  answers: (string | number)[];
-  questions: Question[];
-}
-
-interface CustomTest {
-  id: number;
-  title: string;
-  description: string;
-  type: 'handwritten' | 'link';
-  content?: string;
-  url?: string;
-  chapter: string;
-  uploadDate: string;
-  isEditing?: boolean;
-}
+import { Question, Quiz, TestHistory, CustomTest } from '../types';
 
 interface TestsQuizzesProps {
   testHistory: TestHistory[];

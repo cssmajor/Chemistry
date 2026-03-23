@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Atom, BookOpen, FileText, Mail, Menu, X, Video } from 'lucide-react';
-
-type Section = 'home' | 'materials' | 'videos' | 'tests' | 'contact';
+import { Section } from '../types';
 
 interface LayoutProps {
   children: React.ReactNode;

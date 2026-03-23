@@ -1,8 +1,9 @@
 import React from 'react';
 import { Award, BookOpen, Users, TrendingUp, Beaker, Atom } from 'lucide-react';
+import { Section } from '../types';
 
 interface HomeProps {
-  onSectionChange: (section: 'home' | 'materials' | 'videos' | 'tests' | 'contact') => void;
+  onSectionChange: (section: Section) => void;
 }
 
 const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
