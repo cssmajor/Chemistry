@@ -14,9 +14,14 @@ const AppContent: React.FC = () => {
   const { user, isAdmin, loading } = useAuth();
   const [currentSection, setCurrentSection] = useState<Section>('home');
   const [testHistory, setTestHistory] = useState<TestHistory[]>([]);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
 
   const handleTestComplete = (result: TestHistory) => {
     setTestHistory(prev => [result, ...prev]);
+  };
+
+  const handleAdminClick = () => {
+    setShowAdminLogin(true);
   };
 
   if (loading) {
@@ -34,7 +39,7 @@ const AppContent: React.FC = () => {
     return <AdminDashboard />;
   }
 
-  if (user && !isAdmin) {
+  if (showAdminLogin || (user && !isAdmin)) {
     return <AdminLogin />;
   }
 
@@ -59,6 +64,7 @@ const AppContent: React.FC = () => {
     <Layout
       currentSection={currentSection}
       onSectionChange={setCurrentSection}
+      onAdminClick={handleAdminClick}
     >
       {renderSection()}
     </Layout>

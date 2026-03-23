@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Atom, BookOpen, FileText, Mail, Menu, X, Video } from 'lucide-react';
+import { Atom, BookOpen, FileText, Mail, Menu, X, Video, Shield } from 'lucide-react';
 import { Section } from '../types';
 
 interface LayoutProps {
   children: React.ReactNode;
   currentSection: Section;
   onSectionChange: (section: Section) => void;
+  onAdminClick?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChange }) => {
+const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChange, onAdminClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -108,7 +109,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
               </button>
 
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex space-x-2">
+              <nav className="hidden lg:flex items-center space-x-2">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -126,6 +127,15 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                     </button>
                   );
                 })}
+                {onAdminClick && (
+                  <button
+                    onClick={onAdminClick}
+                    className="flex items-center space-x-2 px-4 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black transition-all duration-300 transform hover:scale-105 font-medium shadow-lg border border-gray-600"
+                  >
+                    <Shield className="w-5 h-5" />
+                    <span>Әкімші</span>
+                  </button>
+                )}
               </nav>
 
               {/* Mobile menu button */}
@@ -139,7 +149,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
 
             {/* Mobile Navigation */}
             <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
-              isMobileMenuOpen ? 'max-h-96 pb-4' : 'max-h-0'
+              isMobileMenuOpen ? 'max-h-[28rem] pb-4' : 'max-h-0'
             }`}>
               <nav className="grid grid-cols-1 gap-2">
                 {navItems.map((item) => {
@@ -159,6 +169,18 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                     </button>
                   );
                 })}
+                {onAdminClick && (
+                  <button
+                    onClick={() => {
+                      onAdminClick();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-3 px-4 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black transition-all duration-300 hover:scale-105 font-medium shadow-md border border-gray-600"
+                  >
+                    <Shield className="w-5 h-5" />
+                    <span>Әкімші кіру</span>
+                  </button>
+                )}
               </nav>
             </div>
           </div>
