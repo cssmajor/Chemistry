@@ -183,34 +183,6 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
         </div>
       </section>
 
-      {/* Animated orbital rings for the selected element */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-white/30 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%)', animationDuration: '8s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-white/40 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%) rotate(60deg)', animationDuration: '6s', animationDirection: 'reverse' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-16 h-16 border-2 border-white/50 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%) rotate(120deg)', animationDuration: '4s' }}></div>
-      </div>
-
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-8 text-white text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Оқуды бастауға дайынсыз ба?</h2>
-        <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-          Біздің химия пәні бойынша ресурстарымызды зерттеп, осы қызықты пәнді меңгеру жолыңызды бастаңыз.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button 
-            onClick={() => onSectionChange('materials')}
-            className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-          >
-            Материалдарды шолу
-          </button>
-          <button 
-            onClick={() => onSectionChange('tests')}
-            className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-          >
-            Жаттығу тестін тапсыру
-          </button>
-        </div>
-      </section>
     </div>
   );
 };

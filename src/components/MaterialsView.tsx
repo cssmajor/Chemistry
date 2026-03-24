@@ -82,10 +82,8 @@ const MaterialsView: React.FC = () => {
   const filteredMaterials = materials.filter(material => {
     const matchesSearch = material.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          material.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesChapter = selectedChapter === 'all' || material.chapter === selectedChapter;
-    const matchesType = selectedType === 'all' || material.type === selectedType;
 
-    return matchesSearch && matchesChapter && matchesType;
+    return matchesSearch;
   });
 
   if (loading) {
@@ -108,7 +106,7 @@ const MaterialsView: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <div className="flex flex-col lg:flex-row gap-4 mb-4">
+        <div className="flex gap-4 mb-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
@@ -118,34 +116,6 @@ const MaterialsView: React.FC = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
-          </div>
-
-          <div className="lg:w-56">
-            <select
-              value={selectedChapter}
-              onChange={(e) => setSelectedChapter(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            >
-              <option value="all">Барлық тараулар</option>
-              {chapters.map((chapter) => (
-                <option key={chapter} value={chapter}>{chapter}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="lg:w-44">
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            >
-              <option value="all">Барлық түрлер</option>
-              <option value="pdf">PDF</option>
-              <option value="doc">Word</option>
-              <option value="ppt">PowerPoint</option>
-              <option value="image">Суреттер</option>
-              <option value="video">Видеолар</option>
-            </select>
           </div>
         </div>
 

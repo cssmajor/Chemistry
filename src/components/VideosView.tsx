@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Clock, Calendar, Eye } from 'lucide-react';
+import { Play, Clock, Calendar, Eye, Search } from 'lucide-react';
 import { VideoItem } from '../types';
 import { supabase } from '../lib/supabase';
 
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
-  const [selectedChapter, setSelectedChapter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-
-  const chapters = [
-    '1-тарау: Негізгі ұғымдар',
-    '2-тарау: Атом құрылысы',
-    '3-тарау: Химиялық байланыс',
-    '4-тарау: Химиялық реакциялар',
-    '5-тарау: Қышқылдар мен негіздер',
-    '6-тарау: Органикалық химия'
-  ];
 
   useEffect(() => {
     fetchVideos();
@@ -45,9 +36,9 @@ const VideosView: React.FC = () => {
     setLoading(false);
   };
 
-  const filteredVideos = selectedChapter === 'all'
-    ? videos
-    : videos.filter(video => video.chapter === selectedChapter);
+  const filteredVideos = videos.filter(video =>
+    video.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -69,20 +60,20 @@ const VideosView: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="text-sm text-gray-600 font-medium">
-            {filteredVideos.length} видео табылды
+        <div className="flex gap-4 items-center">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Видеоларды іздеу..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            />
           </div>
-          <select
-            value={selectedChapter}
-            onChange={(e) => setSelectedChapter(e.target.value)}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          >
-            <option value="all">Барлық тараулар</option>
-            {chapters.map((chapter) => (
-              <option key={chapter} value={chapter}>{chapter}</option>
-            ))}
-          </select>
+          <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
+            {filteredVideos.length} видео
+          </div>
         </div>
       </div>
 

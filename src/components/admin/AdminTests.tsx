@@ -82,13 +82,15 @@ const AdminTests: React.FC = () => {
   const [tests, setTests] = useState<CustomTest[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
+  const [activeTab, setActiveTab] = useState<'labwork' | 'lecture'>('lecture');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     type: 'handwritten' as 'handwritten' | 'link',
     content: '',
-    url: '',
-    chapter: '1-тарау: Негізгі ұғымдар'
+    file_link: '',
+    chapter: '1-тарау: Негізгі ұғымдар',
+    test_type: 'lecture' as 'labwork' | 'lecture'
   });
 
   const chapters = [
@@ -109,12 +111,13 @@ const AdminTests: React.FC = () => {
 
   useEffect(() => {
     fetchTests();
-  }, []);
+  }, [activeTab]);
 
   const fetchTests = async () => {
     const { data, error } = await supabase
       .from('custom_tests')
       .select('*')
+      .eq('test_type', activeTab)
       .order('order_index', { ascending: true });
 
     if (error) {
@@ -126,7 +129,7 @@ const AdminTests: React.FC = () => {
         description: t.description,
         type: t.type,
         content: t.content,
-        url: t.url,
+        url: t.file_link,
         chapter: t.chapter,
         uploadDate: t.upload_date
       })));
@@ -163,8 +166,9 @@ const AdminTests: React.FC = () => {
           description: formData.description,
           type: formData.type,
           content: formData.type === 'handwritten' ? formData.content : null,
-          url: formData.type === 'link' ? formData.url : null,
+          file_link: formData.file_link || null,
           chapter: formData.chapter,
+          test_type: formData.test_type,
           updated_at: new Date().toISOString()
         })
         .eq('id', editingId);
@@ -183,8 +187,9 @@ const AdminTests: React.FC = () => {
           description: formData.description,
           type: formData.type,
           content: formData.type === 'handwritten' ? formData.content : null,
-          url: formData.type === 'link' ? formData.url : null,
+          file_link: formData.file_link || null,
           chapter: formData.chapter,
+          test_type: formData.test_type,
           order_index: tests.length
         }]);
 
@@ -203,8 +208,9 @@ const AdminTests: React.FC = () => {
       description: test.description,
       type: test.type,
       content: test.content || '',
-      url: test.url || '',
-      chapter: test.chapter
+      file_link: test.url || '',
+      chapter: test.chapter,
+      test_type: activeTab
     });
     setEditingId(test.id);
     setShowAddForm(true);
@@ -231,8 +237,9 @@ const AdminTests: React.FC = () => {
       description: '',
       type: 'handwritten',
       content: '',
-      url: '',
-      chapter: '1-тарау: Негізгі ұғымдар'
+      file_link: '',
+      chapter: '1-тарау: Негізгі ұғымдар',
+      test_type: activeTab
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -248,6 +255,29 @@ const AdminTests: React.FC = () => {
         >
           {showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
           <span>{showAddForm ? 'Жабу' : 'Қосу'}</span>
+        </button>
+      </div>
+
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+        <button
+          onClick={() => setActiveTab('lecture')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'lecture'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Дәріс тесттері
+        </button>
+        <button
+          onClick={() => setActiveTab('labwork')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'labwork'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Зертханалық тесттері
         </button>
       </div>
 
@@ -336,13 +366,27 @@ const AdminTests: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Тест сілтемесі</label>
               <input
                 type="url"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                value={formData.file_link}
+                onChange={(e) => setFormData({ ...formData, file_link: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="https://forms.google.com/..."
               />
             </div>
           )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <LinkIcon className="w-4 h-4 inline mr-1" />
+              Қосымша файлдар сілтемесі (міндетті емес)
+            </label>
+            <input
+              type="url"
+              value={formData.file_link}
+              onChange={(e) => setFormData({ ...formData, file_link: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="https://drive.google.com/..."
+            />
+          </div>
 
           <div className="flex justify-end space-x-3">
             <button

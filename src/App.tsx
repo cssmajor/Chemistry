@@ -52,7 +52,7 @@ const AppContent: React.FC = () => {
       case 'videos':
         return <VideosView />;
       case 'tests':
-        return <TestsQuizzes testHistory={testHistory} onTestComplete={handleTestComplete} />;
+        return <TestsQuizzes />;
       case 'contact':
         return <Contact />;
       default:
