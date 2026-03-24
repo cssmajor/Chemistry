@@ -58,7 +58,9 @@ export interface TestHistory {
 export interface TestQuestion {
   id: number;
   question: string;
-  answer: string;
+  options: string[];
+  correct_option: number;
+  additional_materials_link?: string;
 }
 
 export interface CustomTest {

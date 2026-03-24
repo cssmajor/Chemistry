@@ -58,7 +58,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete }) =
           )}
           <h3 className="font-semibold text-gray-900">{test.title}</h3>
         </div>
-        <p className="text-sm text-gray-600">{test.chapter}</p>
+        <p className="text-sm text-gray-600">{test.description}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -89,19 +89,9 @@ const AdminTests: React.FC = () => {
     type: 'handwritten' as 'handwritten' | 'link',
     content: '',
     file_link: '',
-    chapter: '1-тарау: Негізгі ұғымдар',
     test_type: 'lecture' as 'labwork' | 'lecture',
     questions: [] as TestQuestion[]
   });
-
-  const chapters = [
-    '1-тарау: Негізгі ұғымдар',
-    '2-тарау: Атом құрылысы',
-    '3-тарау: Химиялық байланыс',
-    '4-тарау: Химиялық реакциялар',
-    '5-тарау: Қышқылдар мен негіздер',
-    '6-тарау: Органикалық химия'
-  ];
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -169,7 +159,6 @@ const AdminTests: React.FC = () => {
           type: formData.type,
           content: formData.type === 'handwritten' ? formData.content : null,
           file_link: formData.file_link || null,
-          chapter: formData.chapter,
           test_type: formData.test_type,
           questions: formData.questions,
           updated_at: new Date().toISOString()
@@ -191,7 +180,6 @@ const AdminTests: React.FC = () => {
           type: formData.type,
           content: formData.type === 'handwritten' ? formData.content : null,
           file_link: formData.file_link || null,
-          chapter: formData.chapter,
           test_type: formData.test_type,
           questions: formData.questions,
           order_index: tests.length
@@ -213,7 +201,6 @@ const AdminTests: React.FC = () => {
       type: test.type,
       content: test.content || '',
       file_link: test.url || '',
-      chapter: test.chapter,
       test_type: activeTab,
       questions: test.questions || []
     });
@@ -243,7 +230,6 @@ const AdminTests: React.FC = () => {
       type: 'handwritten',
       content: '',
       file_link: '',
-      chapter: '1-тарау: Негізгі ұғымдар',
       test_type: activeTab,
       questions: []
     });
@@ -255,7 +241,9 @@ const AdminTests: React.FC = () => {
     const newQuestion: TestQuestion = {
       id: formData.questions.length + 1,
       question: '',
-      answer: ''
+      options: ['', '', '', ''],
+      correct_option: 0,
+      additional_materials_link: ''
     };
     setFormData({ ...formData, questions: [...formData.questions, newQuestion] });
   };
@@ -265,10 +253,35 @@ const AdminTests: React.FC = () => {
     setFormData({ ...formData, questions: newQuestions });
   };
 
-  const updateQuestion = (index: number, field: 'question' | 'answer', value: string) => {
+  const updateQuestion = (index: number, field: keyof TestQuestion, value: any) => {
     const newQuestions = [...formData.questions];
-    newQuestions[index][field] = value;
+    newQuestions[index] = { ...newQuestions[index], [field]: value };
     setFormData({ ...formData, questions: newQuestions });
+  };
+
+  const updateOption = (questionIndex: number, optionIndex: number, value: string) => {
+    const newQuestions = [...formData.questions];
+    const newOptions = [...newQuestions[questionIndex].options];
+    newOptions[optionIndex] = value;
+    newQuestions[questionIndex] = { ...newQuestions[questionIndex], options: newOptions };
+    setFormData({ ...formData, questions: newQuestions });
+  };
+
+  const addOption = (questionIndex: number) => {
+    const newQuestions = [...formData.questions];
+    newQuestions[questionIndex].options.push('');
+    setFormData({ ...formData, questions: newQuestions });
+  };
+
+  const removeOption = (questionIndex: number, optionIndex: number) => {
+    const newQuestions = [...formData.questions];
+    if (newQuestions[questionIndex].options.length > 2) {
+      newQuestions[questionIndex].options = newQuestions[questionIndex].options.filter((_, i) => i !== optionIndex);
+      if (newQuestions[questionIndex].correct_option >= newQuestions[questionIndex].options.length) {
+        newQuestions[questionIndex].correct_option = 0;
+      }
+      setFormData({ ...formData, questions: newQuestions });
+    }
   };
 
   return (
@@ -341,29 +354,15 @@ const AdminTests: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Атауы</label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Тарау</label>
-              <select
-                value={formData.chapter}
-                onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {chapters.map(chapter => (
-                  <option key={chapter} value={chapter}>{chapter}</option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Тест атауы</label>
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
           </div>
 
           <div>
@@ -373,6 +372,7 @@ const AdminTests: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={2}
+              required
             />
           </div>
 
@@ -417,7 +417,7 @@ const AdminTests: React.FC = () => {
           <div className="border-t pt-4">
             <div className="flex justify-between items-center mb-3">
               <label className="block text-sm font-medium text-gray-700">
-                Сұрақтар мен жауаптар (міндетті емес)
+                Сұрақтар мен жауап нұсқалары
               </label>
               <button
                 type="button"
@@ -430,33 +430,89 @@ const AdminTests: React.FC = () => {
             </div>
 
             {formData.questions.length > 0 && (
-              <div className="space-y-3">
-                {formData.questions.map((q, index) => (
-                  <div key={index} className="bg-gray-50 p-3 rounded-lg space-y-2">
+              <div className="space-y-4">
+                {formData.questions.map((q, qIndex) => (
+                  <div key={qIndex} className="bg-gray-50 p-4 rounded-lg space-y-3 border border-gray-200">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-gray-700">Сұрақ {index + 1}</span>
+                      <span className="text-sm font-semibold text-gray-700">Сұрақ {qIndex + 1}</span>
                       <button
                         type="button"
-                        onClick={() => removeQuestion(index)}
+                        onClick={() => removeQuestion(qIndex)}
                         className="text-red-600 hover:text-red-700"
                       >
-                        <MinusCircle className="w-4 h-4" />
+                        <MinusCircle className="w-5 h-5" />
                       </button>
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Сұрақ"
-                      value={q.question}
-                      onChange={(e) => updateQuestion(index, 'question', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Дұрыс жауап"
-                      value={q.answer}
-                      onChange={(e) => updateQuestion(index, 'answer', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Сұрақ мәтіні</label>
+                      <input
+                        type="text"
+                        placeholder="Сұрақты жазыңыз..."
+                        value={q.question}
+                        onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-xs font-medium text-gray-600">Жауап нұсқалары</label>
+                        <button
+                          type="button"
+                          onClick={() => addOption(qIndex)}
+                          className="text-xs text-blue-600 hover:text-blue-700 flex items-center space-x-1"
+                        >
+                          <PlusCircle className="w-3 h-3" />
+                          <span>Нұсқа қосу</span>
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        {q.options.map((option, oIndex) => (
+                          <div key={oIndex} className="flex items-center space-x-2">
+                            <input
+                              type="radio"
+                              name={`correct-${qIndex}`}
+                              checked={q.correct_option === oIndex}
+                              onChange={() => updateQuestion(qIndex, 'correct_option', oIndex)}
+                              className="w-4 h-4 text-green-600"
+                              title="Дұрыс жауап"
+                            />
+                            <input
+                              type="text"
+                              placeholder={`Нұсқа ${oIndex + 1}`}
+                              value={option}
+                              onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            />
+                            {q.options.length > 2 && (
+                              <button
+                                type="button"
+                                onClick={() => removeOption(qIndex, oIndex)}
+                                className="text-red-600 hover:text-red-700"
+                              >
+                                <MinusCircle className="w-4 h-4" />
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Дұрыс жауапты белгілеу үшін радио батырманы басыңыз</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                        <LinkIcon className="w-3 h-3 inline mr-1" />
+                        Қосымша материалдар сілтемесі (міндетті емес)
+                      </label>
+                      <input
+                        type="url"
+                        placeholder="https://..."
+                        value={q.additional_materials_link || ''}
+                        onChange={(e) => updateQuestion(qIndex, 'additional_materials_link', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

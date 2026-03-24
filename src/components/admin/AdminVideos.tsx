@@ -51,7 +51,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete }) 
       </div>
       <div className="flex-1">
         <h3 className="font-semibold text-gray-900">{video.title}</h3>
-        <p className="text-sm text-gray-600">{video.chapter}</p>
+        <p className="text-sm text-gray-600 line-clamp-1">{video.description}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -79,19 +79,8 @@ const AdminVideos: React.FC = () => {
     title: '',
     description: '',
     thumbnail: '',
-    duration: '',
-    chapter: '1-тарау: Негізгі ұғымдар',
     url: ''
   });
-
-  const chapters = [
-    '1-тарау: Негізгі ұғымдар',
-    '2-тарау: Атом құрылысы',
-    '3-тарау: Химиялық байланыс',
-    '4-тарау: Химиялық реакциялар',
-    '5-тарау: Қышқылдар мен негіздер',
-    '6-тарау: Органикалық химия'
-  ];
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -156,8 +145,6 @@ const AdminVideos: React.FC = () => {
           title: formData.title,
           description: formData.description,
           thumbnail: formData.thumbnail,
-          duration: formData.duration,
-          chapter: formData.chapter,
           url: formData.url,
           updated_at: new Date().toISOString()
         })
@@ -176,8 +163,6 @@ const AdminVideos: React.FC = () => {
           title: formData.title,
           description: formData.description,
           thumbnail: formData.thumbnail,
-          duration: formData.duration,
-          chapter: formData.chapter,
           url: formData.url,
           order_index: videos.length
         }]);
@@ -196,8 +181,6 @@ const AdminVideos: React.FC = () => {
       title: video.title,
       description: video.description,
       thumbnail: video.thumbnail || '',
-      duration: video.duration || '',
-      chapter: video.chapter,
       url: video.url
     });
     setEditingId(video.id);
@@ -224,8 +207,6 @@ const AdminVideos: React.FC = () => {
       title: '',
       description: '',
       thumbnail: '',
-      duration: '',
-      chapter: '1-тарау: Негізгі ұғымдар',
       url: ''
     });
     setEditingId(null);
@@ -265,32 +246,8 @@ const AdminVideos: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={3}
+              required
             />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Тарау</label>
-              <select
-                value={formData.chapter}
-                onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {chapters.map(chapter => (
-                  <option key={chapter} value={chapter}>{chapter}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Ұзақтығы</label>
-              <input
-                type="text"
-                value={formData.duration}
-                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="15:30"
-              />
-            </div>
           </div>
 
           <div>

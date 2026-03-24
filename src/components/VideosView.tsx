@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Clock, Calendar, Eye, Search } from 'lucide-react';
+import { Play, Search } from 'lucide-react';
 import { VideoItem } from '../types';
 import { supabase } from '../lib/supabase';
 
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const chapters = [
-    '1-тарау: Негізгі ұғымдар',
-    '2-тарау: Атом құрылысы',
-    '3-тарау: Химиялық байланыс',
-    '4-тарау: Химиялық реакциялар',
-    '5-тарау: Қышқылдар мен негіздер',
-    '6-тарау: Органикалық химия'
-  ];
 
   useEffect(() => {
     fetchVideos();
@@ -46,11 +36,9 @@ const VideosView: React.FC = () => {
     setLoading(false);
   };
 
-  const filteredVideos = videos.filter(video => {
-    const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesChapter = !selectedChapter || video.chapter === selectedChapter;
-    return matchesSearch && matchesChapter;
-  });
+  const filteredVideos = videos.filter(video =>
+    video.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -67,16 +55,8 @@ const VideosView: React.FC = () => {
           Видео лекциялар
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Әр тарау үшін дайындалған жоғары сапалы лекциялар арқылы өз қарқыныңызбен оқыңыз.
+          Жоғары сапалы видео лекциялар арқылы өз қарқыныңызбен оқыңыз.
         </p>
-        {selectedChapter && (
-          <button
-            onClick={() => setSelectedChapter(null)}
-            className="inline-block text-sm text-blue-600 hover:text-blue-700 font-medium"
-          >
-            ← Барлық тараулар
-          </button>
-        )}
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
@@ -129,33 +109,13 @@ const VideosView: React.FC = () => {
                     </div>
                   </a>
                 </div>
-                {video.duration && (
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs font-medium">
-                    {video.duration}
-                  </div>
-                )}
               </div>
 
               <div className="p-5 space-y-3">
                 <h3 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
                   {video.title}
                 </h3>
-                <p className="text-sm text-gray-600 line-clamp-2">{video.description}</p>
-
-                <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
-                  <span className="bg-gray-50 px-3 py-1 rounded-lg font-medium">{video.chapter}</span>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-1" />
-                    {video.uploadDate}
-                  </span>
-                  <span className="flex items-center">
-                    <Eye className="w-3 h-3 mr-1" />
-                    {video.views || 0} көру
-                  </span>
-                </div>
+                <p className="text-sm text-gray-600 line-clamp-3">{video.description}</p>
 
                 <a
                   href={video.url}
@@ -170,32 +130,6 @@ const VideosView: React.FC = () => {
             </div>
           ))
         )}
-      </div>
-
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Тараулар бойынша видеолар</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {chapters.map((chapter, index) => {
-            const chapterVideos = videos.filter(v => v.chapter === chapter);
-            return (
-              <div key={chapter} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="bg-gradient-to-br from-blue-600 to-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md">
-                    {index + 1}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{chapter}</h3>
-                </div>
-                <p className="text-sm text-gray-600 mb-4 font-medium">{chapterVideos.length} видео қолжетімді</p>
-                <button
-                  onClick={() => setSelectedChapter(chapter)}
-                  className="w-full bg-gradient-to-r from-blue-50 to-green-50 text-blue-700 py-2.5 px-4 rounded-lg hover:from-blue-100 hover:to-green-100 transition-all duration-300 font-medium border border-blue-200"
-                >
-                  Видеоларды көру
-                </button>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
