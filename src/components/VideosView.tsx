@@ -6,7 +6,17 @@ import { supabase } from '../lib/supabase';
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const chapters = [
+    '1-тарау: Негізгі ұғымдар',
+    '2-тарау: Атом құрылысы',
+    '3-тарау: Химиялық байланыс',
+    '4-тарау: Химиялық реакциялар',
+    '5-тарау: Қышқылдар мен негіздер',
+    '6-тарау: Органикалық химия'
+  ];
 
   useEffect(() => {
     fetchVideos();
@@ -36,9 +46,11 @@ const VideosView: React.FC = () => {
     setLoading(false);
   };
 
-  const filteredVideos = videos.filter(video =>
-    video.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredVideos = videos.filter(video => {
+    const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesChapter = !selectedChapter || video.chapter === selectedChapter;
+    return matchesSearch && matchesChapter;
+  });
 
   if (loading) {
     return (
@@ -57,6 +69,14 @@ const VideosView: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Әр тарау үшін дайындалған жоғары сапалы лекциялар арқылы өз қарқыныңызбен оқыңыз.
         </p>
+        {selectedChapter && (
+          <button
+            onClick={() => setSelectedChapter(null)}
+            className="inline-block text-sm text-blue-600 hover:text-blue-700 font-medium"
+          >
+            ← Барлық тараулар
+          </button>
+        )}
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
