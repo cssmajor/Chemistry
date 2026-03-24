@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, FileText, Link as LinkIcon } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, FileText, Link as LinkIcon, PlusCircle, MinusCircle } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { CustomTest } from '../../types';
+import { CustomTest, TestQuestion } from '../../types';
 import {
   DndContext,
   closestCenter,
@@ -90,7 +90,8 @@ const AdminTests: React.FC = () => {
     content: '',
     file_link: '',
     chapter: '1-тарау: Негізгі ұғымдар',
-    test_type: 'lecture' as 'labwork' | 'lecture'
+    test_type: 'lecture' as 'labwork' | 'lecture',
+    questions: [] as TestQuestion[]
   });
 
   const chapters = [
@@ -131,7 +132,8 @@ const AdminTests: React.FC = () => {
         content: t.content,
         url: t.file_link,
         chapter: t.chapter,
-        uploadDate: t.upload_date
+        uploadDate: t.upload_date,
+        questions: t.questions || []
       })));
     }
   };
@@ -169,6 +171,7 @@ const AdminTests: React.FC = () => {
           file_link: formData.file_link || null,
           chapter: formData.chapter,
           test_type: formData.test_type,
+          questions: formData.questions,
           updated_at: new Date().toISOString()
         })
         .eq('id', editingId);
@@ -190,6 +193,7 @@ const AdminTests: React.FC = () => {
           file_link: formData.file_link || null,
           chapter: formData.chapter,
           test_type: formData.test_type,
+          questions: formData.questions,
           order_index: tests.length
         }]);
 
@@ -210,7 +214,8 @@ const AdminTests: React.FC = () => {
       content: test.content || '',
       file_link: test.url || '',
       chapter: test.chapter,
-      test_type: activeTab
+      test_type: activeTab,
+      questions: test.questions || []
     });
     setEditingId(test.id);
     setShowAddForm(true);
@@ -239,10 +244,31 @@ const AdminTests: React.FC = () => {
       content: '',
       file_link: '',
       chapter: '1-тарау: Негізгі ұғымдар',
-      test_type: activeTab
+      test_type: activeTab,
+      questions: []
     });
     setEditingId(null);
     setShowAddForm(false);
+  };
+
+  const addQuestion = () => {
+    const newQuestion: TestQuestion = {
+      id: formData.questions.length + 1,
+      question: '',
+      answer: ''
+    };
+    setFormData({ ...formData, questions: [...formData.questions, newQuestion] });
+  };
+
+  const removeQuestion = (index: number) => {
+    const newQuestions = formData.questions.filter((_, i) => i !== index);
+    setFormData({ ...formData, questions: newQuestions });
+  };
+
+  const updateQuestion = (index: number, field: 'question' | 'answer', value: string) => {
+    const newQuestions = [...formData.questions];
+    newQuestions[index][field] = value;
+    setFormData({ ...formData, questions: newQuestions });
   };
 
   return (
@@ -386,6 +412,55 @@ const AdminTests: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://drive.google.com/..."
             />
+          </div>
+
+          <div className="border-t pt-4">
+            <div className="flex justify-between items-center mb-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Сұрақтар мен жауаптар (міндетті емес)
+              </label>
+              <button
+                type="button"
+                onClick={addQuestion}
+                className="flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-700"
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>Сұрақ қосу</span>
+              </button>
+            </div>
+
+            {formData.questions.length > 0 && (
+              <div className="space-y-3">
+                {formData.questions.map((q, index) => (
+                  <div key={index} className="bg-gray-50 p-3 rounded-lg space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-700">Сұрақ {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeQuestion(index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <MinusCircle className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Сұрақ"
+                      value={q.question}
+                      onChange={(e) => updateQuestion(index, 'question', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Дұрыс жауап"
+                      value={q.answer}
+                      onChange={(e) => updateQuestion(index, 'answer', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end space-x-3">

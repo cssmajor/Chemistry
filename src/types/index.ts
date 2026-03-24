@@ -55,6 +55,12 @@ export interface TestHistory {
   questions: Question[];
 }
 
+export interface TestQuestion {
+  id: number;
+  question: string;
+  answer: string;
+}
+
 export interface CustomTest {
   id: number | string;
   title: string;
@@ -65,4 +71,5 @@ export interface CustomTest {
   chapter: string;
   uploadDate: string;
   isEditing?: boolean;
+  questions?: TestQuestion[];
 }
