@@ -6,16 +6,18 @@ import { supabase } from '../lib/supabase';
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchVideos();
-  }, []);
+  }, [activeTab]);
 
   const fetchVideos = async () => {
     const { data, error } = await supabase
       .from('videos')
       .select('*')
+      .eq('video_type', activeTab)
       .order('order_index', { ascending: true });
 
     if (error) {
@@ -57,6 +59,29 @@ const VideosView: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Жоғары сапалы видео лекциялар арқылы өз қарқыныңызбен оқыңыз.
         </p>
+      </div>
+
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+        <button
+          onClick={() => setActiveTab('lecture')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'lecture'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Дәріс видеолары
+        </button>
+        <button
+          onClick={() => setActiveTab('labwork')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'labwork'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Зертханалық видеолар
+        </button>
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
