@@ -89,7 +89,6 @@ const AdminVideos: React.FC = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    thumbnail: '',
     url: '',
     video_type: 'lecture' as 'lecture' | 'labwork'
   });
@@ -156,10 +155,6 @@ const AdminVideos: React.FC = () => {
       setErrorMsg('Жарамсыз видео URL мекенжайы. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
       return;
     }
-    if (formData.thumbnail && !sanitizeUrl(formData.thumbnail)) {
-      setErrorMsg('Жарамсыз миниатюра URL мекенжайы. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
-      return;
-    }
 
     if (editingId) {
       const { error } = await supabase
@@ -167,7 +162,6 @@ const AdminVideos: React.FC = () => {
         .update({
           title: formData.title,
           description: formData.description,
-          thumbnail: formData.thumbnail,
           url: formData.url,
           video_type: formData.video_type,
           updated_at: new Date().toISOString()
@@ -186,7 +180,6 @@ const AdminVideos: React.FC = () => {
         .insert([{
           title: formData.title,
           description: formData.description,
-          thumbnail: formData.thumbnail,
           url: formData.url,
           video_type: formData.video_type,
           order_index: videos.length
@@ -205,7 +198,6 @@ const AdminVideos: React.FC = () => {
     setFormData({
       title: video.title,
       description: video.description,
-      thumbnail: video.thumbnail || '',
       url: video.url,
       video_type: activeTab
     });
@@ -246,7 +238,6 @@ const AdminVideos: React.FC = () => {
     setFormData({
       title: '',
       description: '',
-      thumbnail: '',
       url: '',
       video_type: activeTab
     });
@@ -323,26 +314,16 @@ const AdminVideos: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Видео URL</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">YouTube видео URL</label>
             <input
               type="url"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="https://youtube.com/..."
+              placeholder="https://youtube.com/watch?v=... немесе https://youtu.be/..."
               required
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Миниатюра URL</label>
-            <input
-              type="url"
-              value={formData.thumbnail}
-              onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="https://..."
-            />
+            <p className="text-xs text-gray-500 mt-1">Видео алдын ала көрсету автоматты түрде YouTube-тен жүктеледі</p>
           </div>
 
           <div className="flex justify-end space-x-3">
