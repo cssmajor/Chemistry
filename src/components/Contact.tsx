@@ -223,7 +223,7 @@ const Contact: React.FC = () => {
                   <option value="homework-help">Үй тапсырмасына көмек</option>
                   <option value="concept-clarification">Ұғымды түсіндіру</option>
                   <option value="extra-credit">Қосымша балл мүмкіндіктері</option>
-                  <option value="lab-questions">Зертхана сұрақтары</option>
+                  <option value="lab-questions">Зертханалық жұмыс сұрақтары</option>
                   <option value="exam-preparation">Емтиханға дайындық</option>
                   <option value="general-inquiry">Жалпы сұрақ</option>
                   <option value="other">Басқа</option>
