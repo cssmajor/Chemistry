@@ -233,7 +233,7 @@ const TestsQuizzes: React.FC = () => {
               : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
-          Зертханалық тесттері
+          Зертханалық жұмыс тесттері
         </button>
       </div>
 
