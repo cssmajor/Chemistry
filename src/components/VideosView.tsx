@@ -52,15 +52,6 @@ const VideosView: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-          Видео лекциялар
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Жоғары сапалы видео лекциялар арқылы өз қарқыныңызбен оқыңыз.
-        </p>
-      </div>
-
       <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
         <button
           onClick={() => setActiveTab('lecture')}
