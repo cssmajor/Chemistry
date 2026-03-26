@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, Search } from 'lucide-react';
 import { VideoItem } from '../types';
 import { supabase } from '../lib/supabase';
+import { sanitizeUrl } from '../lib/sanitize';
 
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
@@ -21,7 +22,7 @@ const VideosView: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching videos:', error);
+      setVideos([]);
     } else if (data) {
       setVideos(data.map((v: any) => ({
         id: v.id,
@@ -111,9 +112,9 @@ const VideosView: React.FC = () => {
           filteredVideos.map((video) => (
             <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
               <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100">
-                {video.thumbnail ? (
+                {sanitizeUrl(video.thumbnail) ? (
                   <img
-                    src={video.thumbnail}
+                    src={sanitizeUrl(video.thumbnail)!}
                     alt={video.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -122,18 +123,20 @@ const VideosView: React.FC = () => {
                     <Play className="w-16 h-16 text-blue-600 opacity-50" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                  <a
-                    href={video.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300"
-                  >
-                    <div className="bg-white rounded-full p-4 shadow-lg">
-                      <Play className="w-8 h-8 text-blue-600" fill="currentColor" />
-                    </div>
-                  </a>
-                </div>
+                {sanitizeUrl(video.url) && (
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                    <a
+                      href={sanitizeUrl(video.url)!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300"
+                    >
+                      <div className="bg-white rounded-full p-4 shadow-lg">
+                        <Play className="w-8 h-8 text-blue-600" fill="currentColor" />
+                      </div>
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="p-5 space-y-3">
@@ -142,15 +145,17 @@ const VideosView: React.FC = () => {
                 </h3>
                 <p className="text-sm text-gray-600 line-clamp-3">{video.description}</p>
 
-                <a
-                  href={video.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-green-500 text-white py-2.5 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all duration-200 font-medium shadow-sm"
-                >
-                  <Play className="w-4 h-4" />
-                  <span>Көру</span>
-                </a>
+                {sanitizeUrl(video.url) && (
+                  <a
+                    href={sanitizeUrl(video.url)!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-green-500 text-white py-2.5 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all duration-200 font-medium shadow-sm"
+                  >
+                    <Play className="w-4 h-4" />
+                    <span>Көру</span>
+                  </a>
+                )}
               </div>
             </div>
           ))

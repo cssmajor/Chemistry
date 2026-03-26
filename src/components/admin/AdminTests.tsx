@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, FileText, Link as LinkIcon, PlusCircle, MinusCircle, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { sanitizeUrl } from '../../lib/sanitize';
 import { CustomTest, TestQuestion } from '../../types';
 import {
   DndContext,
@@ -91,6 +92,7 @@ const AdminTests: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
   const [activeTab, setActiveTab] = useState<'labwork' | 'lecture'>('lecture');
+  const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -120,7 +122,7 @@ const AdminTests: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching tests:', error);
+      setErrorMsg('Тесттерді жүктеу кезінде қате орын алды.');
     } else if (data) {
       setTests(data.map((t: any) => ({
         id: t.id,
@@ -157,6 +159,19 @@ const AdminTests: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
+
+    if (formData.file_link && !sanitizeUrl(formData.file_link)) {
+      setErrorMsg('Жарамсыз тест сілтемесі. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
+      return;
+    }
+
+    for (const q of formData.questions) {
+      if (q.additional_materials_link && !sanitizeUrl(q.additional_materials_link)) {
+        setErrorMsg('Жарамсыз қосымша материал сілтемесі. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
+        return;
+      }
+    }
 
     if (editingId) {
       const { error } = await supabase
@@ -174,7 +189,7 @@ const AdminTests: React.FC = () => {
         .eq('id', editingId);
 
       if (error) {
-        console.error('Error updating test:', error);
+        setErrorMsg('Тестті жаңарту кезінде қате орын алды.');
       } else {
         fetchTests();
         resetForm();
@@ -194,7 +209,7 @@ const AdminTests: React.FC = () => {
         }]);
 
       if (error) {
-        console.error('Error adding test:', error);
+        setErrorMsg('Тестті қосу кезінде қате орын алды.');
       } else {
         fetchTests();
         resetForm();
@@ -224,7 +239,7 @@ const AdminTests: React.FC = () => {
         .eq('id', id);
 
       if (error) {
-        console.error('Error deleting test:', error);
+        setErrorMsg('Тестті жою кезінде қате орын алды.');
       } else {
         fetchTests();
       }
@@ -239,7 +254,7 @@ const AdminTests: React.FC = () => {
       .eq('id', test.id);
 
     if (error) {
-      console.error('Error toggling test type:', error);
+      setErrorMsg('Тест түрін ауыстыру кезінде қате орын алды.');
     } else {
       fetchTests();
     }
@@ -308,6 +323,14 @@ const AdminTests: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {errorMsg && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center">
+          <p className="text-red-700 text-sm">{errorMsg}</p>
+          <button onClick={() => setErrorMsg('')} className="text-red-500 hover:text-red-700">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">Тесттерді басқару</h2>
         <button

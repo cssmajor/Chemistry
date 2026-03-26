@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileText, Link as LinkIcon, ExternalLink, Search, CheckCircle, XCircle, Book } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { sanitizeUrl } from '../lib/sanitize';
 import { CustomTest, TestQuestion } from '../types';
 
 const TestsQuizzes: React.FC = () => {
@@ -23,7 +24,7 @@ const TestsQuizzes: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching tests:', error);
+      setTests([]);
     } else if (data) {
       setTests(data.map((t: any) => ({
         id: t.id,
@@ -155,10 +156,10 @@ const TestsQuizzes: React.FC = () => {
                       })}
                     </div>
 
-                    {question.additional_materials_link && (
+                    {sanitizeUrl(question.additional_materials_link) && (
                       <div className="mt-4 pt-4 border-t border-gray-200">
                         <a
-                          href={question.additional_materials_link}
+                          href={sanitizeUrl(question.additional_materials_link)!}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm"
@@ -258,7 +259,7 @@ const TestsQuizzes: React.FC = () => {
         ) : (
           filteredTests.map((test) => {
             const Icon = getTestIcon(test.type);
-            const hasLink = !!test.url;
+            const hasLink = !!sanitizeUrl(test.url);
             const hasQuestions = test.questions && test.questions.length > 0;
 
             return (
@@ -296,7 +297,7 @@ const TestsQuizzes: React.FC = () => {
                   </button>
                 ) : hasLink ? (
                   <a
-                    href={test.url}
+                    href={sanitizeUrl(test.url)!}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"

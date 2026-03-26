@@ -13,6 +13,5 @@ export const isAdmin = async () => {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return false;
 
-  const role = session.user?.user_metadata?.role || session.user?.app_metadata?.role;
-  return role === 'admin';
+  return session.user?.app_metadata?.role === 'admin';
 };

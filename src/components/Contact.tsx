@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Mail, Phone, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
@@ -8,7 +8,10 @@ const Contact: React.FC = () => {
     subject: '',
     message: ''
   });
+  const [honeypot, setHoneypot] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const lastSubmitRef = useRef(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -20,12 +23,20 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    if (honeypot) return;
+
+    const now = Date.now();
+    if (now - lastSubmitRef.current < 10000) return;
+    lastSubmitRef.current = now;
+
+    setIsSubmitting(true);
     setIsSubmitted(true);
-    
+
     setTimeout(() => {
       setFormData({ name: '', email: '', subject: '', message: '' });
       setIsSubmitted(false);
+      setIsSubmitting(false);
     }, 3000);
   };
 
@@ -172,6 +183,16 @@ const Contact: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-900 mb-6">Хабарлама жіберу</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="absolute opacity-0 h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  autoComplete="off"
+                  tabIndex={-1}
+                />
+              </div>
               {/* Name and Email Row */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -247,13 +268,13 @@ const Contact: React.FC = () => {
                 ></textarea>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
-                <span>Хабарлама жіберу</span>
+                <span>{isSubmitting ? 'Жіберілуде...' : 'Хабарлама жіберу'}</span>
               </button>
             </form>
 

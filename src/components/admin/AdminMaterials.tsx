@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, Link as LinkIcon, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { sanitizeUrl } from '../../lib/sanitize';
 import { Material } from '../../types';
 import {
   DndContext,
@@ -84,6 +85,7 @@ const AdminMaterials: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
   const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
+  const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     type: 'pdf' as 'pdf' | 'doc' | 'ppt' | 'image' | 'video',
@@ -121,7 +123,7 @@ const AdminMaterials: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching materials:', error);
+      setErrorMsg('Материалдарды жүктеу кезінде қате орын алды.');
     } else if (data) {
       setMaterials(data.map((m: any) => ({
         id: m.id,
@@ -156,6 +158,12 @@ const AdminMaterials: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
+
+    if (formData.link && !sanitizeUrl(formData.link)) {
+      setErrorMsg('Жарамсыз URL мекенжайы. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
+      return;
+    }
 
     if (editingId) {
       const { error } = await supabase
@@ -172,7 +180,7 @@ const AdminMaterials: React.FC = () => {
         .eq('id', editingId);
 
       if (error) {
-        console.error('Error updating material:', error);
+        setErrorMsg('Материалды жаңарту кезінде қате орын алды.');
       } else {
         fetchMaterials();
         resetForm();
@@ -191,7 +199,7 @@ const AdminMaterials: React.FC = () => {
         }]);
 
       if (error) {
-        console.error('Error adding material:', error);
+        setErrorMsg('Материалды қосу кезінде қате орын алды.');
       } else {
         fetchMaterials();
         resetForm();
@@ -220,7 +228,7 @@ const AdminMaterials: React.FC = () => {
         .eq('id', id);
 
       if (error) {
-        console.error('Error deleting material:', error);
+        setErrorMsg('Материалды жою кезінде қате орын алды.');
       } else {
         fetchMaterials();
       }
@@ -235,7 +243,7 @@ const AdminMaterials: React.FC = () => {
       .eq('id', material.id);
 
     if (error) {
-      console.error('Error toggling material type:', error);
+      setErrorMsg('Материал түрін ауыстыру кезінде қате орын алды.');
     } else {
       fetchMaterials();
     }
@@ -256,6 +264,14 @@ const AdminMaterials: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {errorMsg && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center">
+          <p className="text-red-700 text-sm">{errorMsg}</p>
+          <button onClick={() => setErrorMsg('')} className="text-red-500 hover:text-red-700">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">Материалдарды басқару</h2>
         <button

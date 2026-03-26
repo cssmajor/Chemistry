@@ -14,8 +14,8 @@ const AdminDashboard: React.FC = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
+    } catch {
+      alert('Шығу кезінде қате орын алды.');
     }
   };
 

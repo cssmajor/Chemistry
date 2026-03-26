@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Image, Video, Search, Eye, File as FileIcon } from 'lucide-react';
 import { Material } from '../types';
 import { supabase } from '../lib/supabase';
+import { sanitizeUrl } from '../lib/sanitize';
 
 const MaterialsView: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
@@ -33,7 +34,7 @@ const MaterialsView: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching materials:', error);
+      setMaterials([]);
     } else if (data) {
       setMaterials(data.map((m: any) => ({
         id: m.id,
@@ -205,9 +206,9 @@ const MaterialsView: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-center">
-                    {material.link && (
+                    {sanitizeUrl(material.link) && (
                       <a
-                        href={material.link}
+                        href={sanitizeUrl(material.link)!}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
@@ -235,9 +236,9 @@ const MaterialsView: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    {material.link && (
+                    {sanitizeUrl(material.link) && (
                       <a
-                        href={material.link}
+                        href={sanitizeUrl(material.link)!}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"

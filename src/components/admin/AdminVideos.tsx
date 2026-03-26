@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { sanitizeUrl } from '../../lib/sanitize';
 import { VideoItem } from '../../types';
 import {
   DndContext,
@@ -84,6 +85,7 @@ const AdminVideos: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
   const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
+  const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -111,7 +113,7 @@ const AdminVideos: React.FC = () => {
       .order('order_index', { ascending: true });
 
     if (error) {
-      console.error('Error fetching videos:', error);
+      setErrorMsg('Видеоларды жүктеу кезінде қате орын алды.');
     } else if (data) {
       setVideos(data.map((v: any) => ({
         id: v.id,
@@ -148,6 +150,16 @@ const AdminVideos: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
+
+    if (formData.url && !sanitizeUrl(formData.url)) {
+      setErrorMsg('Жарамсыз видео URL мекенжайы. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
+      return;
+    }
+    if (formData.thumbnail && !sanitizeUrl(formData.thumbnail)) {
+      setErrorMsg('Жарамсыз миниатюра URL мекенжайы. Тек http:// немесе https:// сілтемелерін қолданыңыз.');
+      return;
+    }
 
     if (editingId) {
       const { error } = await supabase
@@ -163,7 +175,7 @@ const AdminVideos: React.FC = () => {
         .eq('id', editingId);
 
       if (error) {
-        console.error('Error updating video:', error);
+        setErrorMsg('Видеоны жаңарту кезінде қате орын алды.');
       } else {
         fetchVideos();
         resetForm();
@@ -181,7 +193,7 @@ const AdminVideos: React.FC = () => {
         }]);
 
       if (error) {
-        console.error('Error adding video:', error);
+        setErrorMsg('Видеоны қосу кезінде қате орын алды.');
       } else {
         fetchVideos();
         resetForm();
@@ -209,7 +221,7 @@ const AdminVideos: React.FC = () => {
         .eq('id', id);
 
       if (error) {
-        console.error('Error deleting video:', error);
+        setErrorMsg('Видеоны жою кезінде қате орын алды.');
       } else {
         fetchVideos();
       }
@@ -224,7 +236,7 @@ const AdminVideos: React.FC = () => {
       .eq('id', video.id);
 
     if (error) {
-      console.error('Error toggling video type:', error);
+      setErrorMsg('Видео түрін ауыстыру кезінде қате орын алды.');
     } else {
       fetchVideos();
     }
@@ -244,6 +256,14 @@ const AdminVideos: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {errorMsg && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center">
+          <p className="text-red-700 text-sm">{errorMsg}</p>
+          <button onClick={() => setErrorMsg('')} className="text-red-500 hover:text-red-700">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">Видеоларды басқару</h2>
         <button

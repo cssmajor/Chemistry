@@ -18,18 +18,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setIsAdmin(session?.user?.user_metadata?.role === 'admin' ||
-                 session?.user?.app_metadata?.role === 'admin');
+    supabase.auth.getUser().then(({ data: { user: verifiedUser } }) => {
+      setUser(verifiedUser ?? null);
+      setIsAdmin(verifiedUser?.app_metadata?.role === 'admin');
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      setIsAdmin(session?.user?.user_metadata?.role === 'admin' ||
-                 session?.user?.app_metadata?.role === 'admin');
-      setLoading(false);
+      setIsAdmin(session?.user?.app_metadata?.role === 'admin');
     });
 
     return () => subscription.unsubscribe();
