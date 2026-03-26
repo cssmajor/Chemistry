@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { VideoItem } from '../../types';
 import {
@@ -24,9 +24,10 @@ interface SortableItemProps {
   video: VideoItem;
   onEdit: () => void;
   onDelete: () => void;
+  onToggleType: () => void;
 }
 
-const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete }) => {
+const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete, onToggleType }) => {
   const {
     attributes,
     listeners,
@@ -55,6 +56,13 @@ const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete }) 
       </div>
       <div className="flex space-x-2">
         <button
+          onClick={onToggleType}
+          className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-all"
+          title="Видео түрін өзгерту"
+        >
+          <ArrowRightLeft className="w-4 h-4" />
+        </button>
+        <button
           onClick={onEdit}
           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
         >
@@ -75,11 +83,13 @@ const AdminVideos: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
+  const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     thumbnail: '',
-    url: ''
+    url: '',
+    video_type: 'lecture' as 'lecture' | 'labwork'
   });
 
   const sensors = useSensors(
@@ -91,12 +101,13 @@ const AdminVideos: React.FC = () => {
 
   useEffect(() => {
     fetchVideos();
-  }, []);
+  }, [activeTab]);
 
   const fetchVideos = async () => {
     const { data, error } = await supabase
       .from('videos')
       .select('*')
+      .eq('video_type', activeTab)
       .order('order_index', { ascending: true });
 
     if (error) {
@@ -146,6 +157,7 @@ const AdminVideos: React.FC = () => {
           description: formData.description,
           thumbnail: formData.thumbnail,
           url: formData.url,
+          video_type: formData.video_type,
           updated_at: new Date().toISOString()
         })
         .eq('id', editingId);
@@ -164,6 +176,7 @@ const AdminVideos: React.FC = () => {
           description: formData.description,
           thumbnail: formData.thumbnail,
           url: formData.url,
+          video_type: formData.video_type,
           order_index: videos.length
         }]);
 
@@ -181,7 +194,8 @@ const AdminVideos: React.FC = () => {
       title: video.title,
       description: video.description,
       thumbnail: video.thumbnail || '',
-      url: video.url
+      url: video.url,
+      video_type: activeTab
     });
     setEditingId(video.id);
     setShowAddForm(true);
@@ -202,12 +216,27 @@ const AdminVideos: React.FC = () => {
     }
   };
 
+  const handleToggleVideoType = async (video: VideoItem) => {
+    const newType = activeTab === 'lecture' ? 'labwork' : 'lecture';
+    const { error } = await supabase
+      .from('videos')
+      .update({ video_type: newType })
+      .eq('id', video.id);
+
+    if (error) {
+      console.error('Error toggling video type:', error);
+    } else {
+      fetchVideos();
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       title: '',
       description: '',
       thumbnail: '',
-      url: ''
+      url: '',
+      video_type: activeTab
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -223,6 +252,29 @@ const AdminVideos: React.FC = () => {
         >
           {showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
           <span>{showAddForm ? 'Жабу' : 'Қосу'}</span>
+        </button>
+      </div>
+
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+        <button
+          onClick={() => setActiveTab('lecture')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'lecture'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Дәріс видеолары
+        </button>
+        <button
+          onClick={() => setActiveTab('labwork')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'labwork'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Зертханалық видеолар
         </button>
       </div>
 
@@ -315,6 +367,7 @@ const AdminVideos: React.FC = () => {
                   video={video}
                   onEdit={() => handleEdit(video)}
                   onDelete={() => handleDelete(video.id)}
+                  onToggleType={() => handleToggleVideoType(video)}
                 />
               ))}
             </div>

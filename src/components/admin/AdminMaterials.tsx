@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, Link as LinkIcon } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, Link as LinkIcon, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { Material } from '../../types';
 import {
@@ -24,9 +24,10 @@ interface SortableItemProps {
   material: Material;
   onEdit: () => void;
   onDelete: () => void;
+  onToggleType: () => void;
 }
 
-const SortableItem: React.FC<SortableItemProps> = ({ material, onEdit, onDelete }) => {
+const SortableItem: React.FC<SortableItemProps> = ({ material, onEdit, onDelete, onToggleType }) => {
   const {
     attributes,
     listeners,
@@ -55,6 +56,13 @@ const SortableItem: React.FC<SortableItemProps> = ({ material, onEdit, onDelete 
       </div>
       <div className="flex space-x-2">
         <button
+          onClick={onToggleType}
+          className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-all"
+          title="Материал түрін өзгерту"
+        >
+          <ArrowRightLeft className="w-4 h-4" />
+        </button>
+        <button
           onClick={onEdit}
           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
         >
@@ -75,12 +83,14 @@ const AdminMaterials: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
+  const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
   const [formData, setFormData] = useState({
     title: '',
     type: 'pdf' as 'pdf' | 'doc' | 'ppt' | 'image' | 'video',
     chapter: '1-тарау: Негізгі ұғымдар',
     description: '',
-    link: ''
+    link: '',
+    material_type: 'lecture' as 'lecture' | 'labwork'
   });
 
   const chapters = [
@@ -101,12 +111,13 @@ const AdminMaterials: React.FC = () => {
 
   useEffect(() => {
     fetchMaterials();
-  }, []);
+  }, [activeTab]);
 
   const fetchMaterials = async () => {
     const { data, error } = await supabase
       .from('materials')
       .select('*')
+      .eq('material_type', activeTab)
       .order('order_index', { ascending: true });
 
     if (error) {
@@ -155,6 +166,7 @@ const AdminMaterials: React.FC = () => {
           chapter: formData.chapter,
           description: formData.description,
           link: formData.link,
+          material_type: formData.material_type,
           updated_at: new Date().toISOString()
         })
         .eq('id', editingId);
@@ -174,6 +186,7 @@ const AdminMaterials: React.FC = () => {
           chapter: formData.chapter,
           description: formData.description,
           link: formData.link,
+          material_type: formData.material_type,
           order_index: materials.length
         }]);
 
@@ -192,7 +205,8 @@ const AdminMaterials: React.FC = () => {
       type: material.type,
       chapter: material.chapter,
       description: material.description,
-      link: material.link || ''
+      link: material.link || '',
+      material_type: activeTab
     });
     setEditingId(material.id);
     setShowAddForm(true);
@@ -213,13 +227,28 @@ const AdminMaterials: React.FC = () => {
     }
   };
 
+  const handleToggleMaterialType = async (material: Material) => {
+    const newType = activeTab === 'lecture' ? 'labwork' : 'lecture';
+    const { error } = await supabase
+      .from('materials')
+      .update({ material_type: newType })
+      .eq('id', material.id);
+
+    if (error) {
+      console.error('Error toggling material type:', error);
+    } else {
+      fetchMaterials();
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       title: '',
       type: 'pdf',
       chapter: '1-тарау: Негізгі ұғымдар',
       description: '',
-      link: ''
+      link: '',
+      material_type: activeTab
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -235,6 +264,29 @@ const AdminMaterials: React.FC = () => {
         >
           {showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
           <span>{showAddForm ? 'Жабу' : 'Қосу'}</span>
+        </button>
+      </div>
+
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+        <button
+          onClick={() => setActiveTab('lecture')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'lecture'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Дәріс материалдары
+        </button>
+        <button
+          onClick={() => setActiveTab('labwork')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'labwork'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Зертханалық материалдар
         </button>
       </div>
 
@@ -346,6 +398,7 @@ const AdminMaterials: React.FC = () => {
                   material={material}
                   onEdit={() => handleEdit(material)}
                   onDelete={() => handleDelete(material.id)}
+                  onToggleType={() => handleToggleMaterialType(material)}
                 />
               ))}
             </div>
