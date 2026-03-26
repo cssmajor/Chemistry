@@ -400,20 +400,6 @@ const AdminTests: React.FC = () => {
             </div>
           )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <LinkIcon className="w-4 h-4 inline mr-1" />
-              Қосымша файлдар сілтемесі (міндетті емес)
-            </label>
-            <input
-              type="url"
-              value={formData.file_link}
-              onChange={(e) => setFormData({ ...formData, file_link: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="https://drive.google.com/..."
-            />
-          </div>
-
           <div className="border-t pt-4">
             <div className="flex justify-between items-center mb-3">
               <label className="block text-sm font-medium text-gray-700">
