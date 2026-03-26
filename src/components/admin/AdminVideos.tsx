@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, ArrowRightLeft } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, ArrowRightLeft, Upload } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { sanitizeUrl } from '../../lib/sanitize';
 import { VideoItem } from '../../types';
@@ -89,9 +89,12 @@ const AdminVideos: React.FC = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    thumbnail: '',
     url: '',
     video_type: 'lecture' as 'lecture' | 'labwork'
   });
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string>('');
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -147,6 +150,27 @@ const AdminVideos: React.FC = () => {
     }
   };
 
+  const uploadThumbnail = async (file: File): Promise<string | null> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('video-thumbnails')
+      .upload(filePath, file);
+
+    if (uploadError) {
+      setErrorMsg('Суретті жүктеу кезінде қате орын алды.');
+      return null;
+    }
+
+    const { data } = supabase.storage
+      .from('video-thumbnails')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -156,12 +180,21 @@ const AdminVideos: React.FC = () => {
       return;
     }
 
+    let thumbnailUrl = formData.thumbnail;
+
+    if (thumbnailFile) {
+      const uploadedUrl = await uploadThumbnail(thumbnailFile);
+      if (!uploadedUrl) return;
+      thumbnailUrl = uploadedUrl;
+    }
+
     if (editingId) {
       const { error } = await supabase
         .from('videos')
         .update({
           title: formData.title,
           description: formData.description,
+          thumbnail: thumbnailUrl,
           url: formData.url,
           video_type: formData.video_type,
           updated_at: new Date().toISOString()
@@ -180,6 +213,7 @@ const AdminVideos: React.FC = () => {
         .insert([{
           title: formData.title,
           description: formData.description,
+          thumbnail: thumbnailUrl,
           url: formData.url,
           video_type: formData.video_type,
           order_index: videos.length
@@ -198,11 +232,35 @@ const AdminVideos: React.FC = () => {
     setFormData({
       title: video.title,
       description: video.description,
+      thumbnail: video.thumbnail || '',
       url: video.url,
       video_type: activeTab
     });
+    setThumbnailPreview(video.thumbnail || '');
     setEditingId(video.id);
     setShowAddForm(true);
+  };
+
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        setErrorMsg('Тек сурет файлдарын жүктей аласыз (PNG, JPEG).');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        setErrorMsg('Файл өлшемі 5MB-тан аспауы керек.');
+        return;
+      }
+
+      setThumbnailFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDelete = async (id: string | number) => {
@@ -238,9 +296,12 @@ const AdminVideos: React.FC = () => {
     setFormData({
       title: '',
       description: '',
+      thumbnail: '',
       url: '',
       video_type: activeTab
     });
+    setThumbnailFile(null);
+    setThumbnailPreview('');
     setEditingId(null);
     setShowAddForm(false);
   };
@@ -314,16 +375,36 @@ const AdminVideos: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">YouTube видео URL</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Видео алдын ала көрсету (PNG, JPEG)</label>
+            <div className="space-y-3">
+              {thumbnailPreview && (
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-300">
+                  <img src={thumbnailPreview} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+              <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors bg-gray-50 hover:bg-blue-50">
+                <Upload className="w-5 h-5 text-gray-500 mr-2" />
+                <span className="text-sm text-gray-600">Сурет жүктеу (макс. 5MB)</span>
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={handleThumbnailChange}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Видео URL</label>
             <input
               type="url"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="https://youtube.com/watch?v=... немесе https://youtu.be/..."
+              placeholder="https://youtube.com/watch?v=..."
               required
             />
-            <p className="text-xs text-gray-500 mt-1">Видео алдын ала көрсету автоматты түрде YouTube-тен жүктеледі</p>
           </div>
 
           <div className="flex justify-end space-x-3">

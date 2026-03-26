@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, Search } from 'lucide-react';
 import { VideoItem } from '../types';
 import { supabase } from '../lib/supabase';
-import { sanitizeUrl, getYouTubeThumbnail } from '../lib/sanitize';
+import { sanitizeUrl } from '../lib/sanitize';
 
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
@@ -112,14 +112,11 @@ const VideosView: React.FC = () => {
           filteredVideos.map((video) => (
             <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
               <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100">
-                {getYouTubeThumbnail(video.url) ? (
+                {video.thumbnail ? (
                   <img
-                    src={getYouTubeThumbnail(video.url)!}
+                    src={video.thumbnail}
                     alt={video.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
