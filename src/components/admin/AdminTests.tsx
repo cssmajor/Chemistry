@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, FileText, Link as LinkIcon, PlusCircle, MinusCircle } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, FileText, Link as LinkIcon, PlusCircle, MinusCircle, ArrowRightLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { CustomTest, TestQuestion } from '../../types';
 import {
@@ -24,9 +24,10 @@ interface SortableItemProps {
   test: CustomTest;
   onEdit: () => void;
   onDelete: () => void;
+  onToggleType: () => void;
 }
 
-const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete }) => {
+const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete, onToggleType }) => {
   const {
     attributes,
     listeners,
@@ -61,6 +62,13 @@ const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete }) =
         <p className="text-sm text-gray-600">{test.description}</p>
       </div>
       <div className="flex space-x-2">
+        <button
+          onClick={onToggleType}
+          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-all"
+          title="Тест түрін өзгерту"
+        >
+          <ArrowRightLeft className="w-4 h-4" />
+        </button>
         <button
           onClick={onEdit}
           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
@@ -220,6 +228,20 @@ const AdminTests: React.FC = () => {
       } else {
         fetchTests();
       }
+    }
+  };
+
+  const handleToggleTestType = async (test: CustomTest) => {
+    const newType = activeTab === 'lecture' ? 'labwork' : 'lecture';
+    const { error } = await supabase
+      .from('custom_tests')
+      .update({ test_type: newType })
+      .eq('id', test.id);
+
+    if (error) {
+      console.error('Error toggling test type:', error);
+    } else {
+      fetchTests();
     }
   };
 
@@ -547,6 +569,7 @@ const AdminTests: React.FC = () => {
                   test={test}
                   onEdit={() => handleEdit(test)}
                   onDelete={() => handleDelete(test.id)}
+                  onToggleType={() => handleToggleTestType(test)}
                 />
               ))}
             </div>
