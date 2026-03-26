@@ -71,7 +71,7 @@ const VideosView: React.FC = () => {
               : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
-          Зертханалық видеолар
+          Зертханалық жұмыстар
         </button>
       </div>
 
