@@ -178,7 +178,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                     className="flex items-center space-x-3 px-4 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black transition-all duration-300 hover:scale-105 font-medium shadow-md border border-gray-600"
                   >
                     <Shield className="w-5 h-5" />
-                    <span>Әкімші кіру</span>
+                    <span>Әкімші панелі</span>
                   </button>
                 )}
               </nav>
