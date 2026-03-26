@@ -126,7 +126,7 @@ const MaterialsView: React.FC = () => {
               : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
-          Зертханалық материалдар
+          Зертханалық жұмыс материалдары
         </button>
       </div>
 
