@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, BookOpen, Users, TrendingUp, Beaker, Atom } from 'lucide-react';
+import { Award, BookOpen, Users, TrendingUp, Beaker } from 'lucide-react';
 import { Section } from '../types';
 
 interface HomeProps {
@@ -30,67 +30,54 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
       title: 'Жаттығу тесттері',
       description: 'Сауалнамалар мен жаттығу емтихандары арқылы білімдеріңізді тексеріп, лезде кері байланыс алыңыз.',
       icon: Award,
-      color: 'bg-purple-100 text-purple-700'
+      color: 'bg-teal-100 text-teal-700'
     }
   ];
 
   return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <section className="text-center space-y-8">
-        <div className="relative">
-          {/* Teacher Photo Placeholder */}
-          <div className="mx-auto w-48 h-48 bg-gradient-to-br from-purple-400 via-blue-500 to-green-400 rounded-full flex items-center justify-center mb-6 shadow-xl relative overflow-hidden">
-            <div className="text-6xl font-bold text-white z-10">Н</div>
-            {/* Atomic orbital animations */}
+    <div className="space-y-10">
+      <section className="text-center space-y-6">
+        <div className="relative inline-block">
+          <div className="mx-auto w-32 h-32 md:w-36 md:h-36 bg-gradient-to-br from-blue-400 via-teal-500 to-green-400 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
+            <div className="text-5xl font-bold text-white z-10">Н</div>
             <div className="absolute inset-0">
-              <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-white/30 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%)', animationDuration: '8s' }}></div>
-              <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-white/40 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%) rotate(60deg)', animationDuration: '6s', animationDirection: 'reverse' }}></div>
-              <div className="absolute top-1/2 left-1/2 w-16 h-16 border-2 border-white/50 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%) rotate(120deg)', animationDuration: '4s' }}></div>
+              <div className="absolute top-1/2 left-1/2 w-28 h-28 border-2 border-white/30 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%)', animationDuration: '8s' }}></div>
+              <div className="absolute top-1/2 left-1/2 w-20 h-20 border-2 border-white/40 rounded-full animate-spin" style={{ transform: 'translate(-50%, -50%) rotate(60deg)', animationDuration: '6s', animationDirection: 'reverse' }}></div>
             </div>
           </div>
-          
-          {/* Floating Electrons */}
-          <div className="absolute top-0 left-1/4 w-4 h-4 bg-yellow-400 rounded-full animate-pulse shadow-lg"></div>
-          <div className="absolute top-8 right-1/4 w-3 h-3 bg-blue-400 rounded-full animate-pulse delay-300 shadow-lg"></div>
-          <div className="absolute bottom-8 left-1/3 w-5 h-5 bg-green-400 rounded-full animate-pulse delay-500 shadow-lg"></div>
-          <div className="absolute top-16 right-1/3 w-3 h-3 bg-purple-400 rounded-full animate-pulse delay-700 shadow-lg"></div>
         </div>
 
-        <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 bg-clip-text text-transparent">Қош келдіңіздер!</span>
+        <div className="space-y-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+            <span className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 bg-clip-text text-transparent">Қош келдіңіздер!</span>
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
             Интербелсенді оқыту платформасына
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Бұл сайт химия пәнінен білім алуға арналған. Есімім Төребек Нұрзипа Бақытбекқызы. 
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Бұл сайт химия пәнінен білім алуға арналған. Есімім Төребек Нұрзипа Бақытбекқызы.
             Химия пәні мұғалімімін және әрбір студент үшін химияны қолжетімді және қызықты ету менің құштарлығым.
           </p>
         </div>
 
-        {/* Teacher Bio */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-          <div className="space-y-4 text-left">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">Химия мұғалімі туралы</h2>
-            <div className="grid md:grid-cols-2 gap-6 text-gray-700 leading-relaxed">
-              <div>
-                <p className="mb-4">
-                  Мен өз мансабымды студенттерге химияның таңғажайып әлемін ашуға көмектесуге арнадым. Менің тәсілім дәстүрлі оқыту әдістерін заманауи, интерактивті техникалармен біріктіріп, күрделі ұғымдарды түсінуге оңай етеді.
-                </p>
-                <p>
-                  Мен әрбір студент дұрыс құралдар, қолдау және жігерлендіру берілгенде химияда жетістікке жете алады деп сенемін. Бұл веб-сайт химияның барлық мәселелері бойынша сіздің бір терезелі ресурсыңыз болуға арналған.
-                </p>
-              </div>
-              <div>
-                <p className="mb-4">
-                  Менде химия білімі бойынша магистр дәрежесі бар және жетілдірілген оқыту әдістері бойынша тәжірибем бар. Уақыттарымды ғылыми тәжірибелер жүргізуге, соңғы жаңалықтар туралы оқуға және оқытуды қызықты ету жолдарына қолдануды ұнатамын.
-                </p>
-                <p>
-                  Менің мақсатым - келесі ұрпақ ғалымдарын шабыттандыру және барлық студенттерге химия бойынша академиялық мақсаттарына жетуге көмектесу.
-                </p>
-              </div>
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold text-gray-900 text-center mb-4">Химия мұғалімі туралы</h2>
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6 text-gray-700 text-sm md:text-base leading-relaxed">
+            <div>
+              <p className="mb-3">
+                Мен өз мансабымды студенттерге химияның таңғажайып әлемін ашуға көмектесуге арнадым. Менің тәсілім дәстүрлі оқыту әдістерін заманауи, интерактивті техникалармен біріктіріп, күрделі ұғымдарды түсінуге оңай етеді.
+              </p>
+              <p>
+                Мен әрбір студент дұрыс құралдар, қолдау және жігерлендіру берілгенде химияда жетістікке жете алады деп сенемін.
+              </p>
+            </div>
+            <div>
+              <p className="mb-3">
+                Менде химия білімі бойынша магистр дәрежесі бар және жетілдірілген оқыту әдістері бойынша тәжірибем бар.
+              </p>
+              <p>
+                Менің мақсатым - келесі ұрпақ ғалымдарын шабыттандыру және барлық студенттерге химия бойынша академиялық мақсаттарына жетуге көмектесу.
+              </p>
             </div>
           </div>
         </div>
@@ -98,36 +85,36 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
 
       {/* Stats Section */}
       <section className="flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
-              <div className="bg-gradient-to-r from-blue-600 to-green-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Icon className="w-6 h-6 text-white" />
+        <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-3xl w-full">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 md:p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-gradient-to-r from-blue-600 to-green-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                </div>
+                <div className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-gray-600">{stat.label}</div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
-            </div>
-          );
-        })}
+            );
+          })}
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="space-y-8">
+      <section className="space-y-6">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Мұнда не табасыз?</h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Мұнда не табасыз?</h2>
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Химияда табысқа жету үшін қажет барлық нәрсе: толық оқу материалдарынан және түрлі пайдалы бейнематериалдар мен жаттығу тесттеріне дейін.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
                   <Icon className="w-6 h-6" />
                 </div>
@@ -140,45 +127,45 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
       </section>
 
       {/* Key Features Section */}
-      <section className="space-y-8">
+      <section className="space-y-6">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Платформаның негізгі мүмкіндіктері</h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Платформаның негізгі мүмкіндіктері</h2>
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Химияны үйренуді жеңілдететін және тиімді ететін заманауи құралдар мен ресурстар.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-              <BookOpen className="w-8 h-8 text-blue-600" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+              <BookOpen className="w-7 h-7 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Толық материалдар</h3>
-            <p className="text-gray-600 text-sm">PDF, Word, PowerPoint және басқа форматтағы оқу материалдары</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Толық материалдар</h3>
+            <p className="text-gray-600 text-xs md:text-sm">PDF, Word, PowerPoint және басқа форматтағы оқу материалдары</p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
-              <Award className="w-8 h-8 text-green-600" />
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Award className="w-7 h-7 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Интерактивті тесттер</h3>
-            <p className="text-gray-600 text-sm">Білімді тексеру үшін сауалнамалар мен жаттығу тесттері</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Интерактивті тесттер</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Білімді тексеру үшін сауалнамалар мен жаттығу тесттері</p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-spin" style={{ animationDuration: '3s' }}>
-              <TrendingUp className="w-8 h-8 text-purple-600" />
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-teal-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+              <TrendingUp className="w-7 h-7 text-teal-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Прогресс қадағалау</h3>
-            <p className="text-gray-600 text-sm">Оқу прогрессіңізді бақылау және жетістіктерді көру</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Прогресс қадағалау</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Оқу прогрессіңізді бақылау және жетістіктерді көру</p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse" style={{ animationDelay: '0.5s' }}>
-              <Beaker className="w-8 h-8 text-orange-600" />
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-orange-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Beaker className="w-7 h-7 text-orange-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Бейне сабақтар</h3>
-            <p className="text-gray-600 text-sm">Көрнекі түсіндірмелер мен зертханалық жұмыстар</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Бейне сабақтар</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Көрнекі түсіндірмелер мен зертханалық жұмыстар</p>
           </div>
         </div>
       </section>

@@ -8,17 +8,12 @@ import TestsQuizzes from './components/TestsQuizzes';
 import Contact from './components/Contact';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
-import { Section, TestHistory } from './types';
+import { Section } from './types';
 
 const AppContent: React.FC = () => {
   const { user, isAdmin, loading } = useAuth();
   const [currentSection, setCurrentSection] = useState<Section>('home');
-  const [testHistory, setTestHistory] = useState<TestHistory[]>([]);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-
-  const handleTestComplete = (result: TestHistory) => {
-    setTestHistory(prev => [result, ...prev]);
-  };
 
   const handleAdminClick = () => {
     setShowAdminLogin(true);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, ExternalLink, MessageCircle } from 'lucide-react';
+import { Mail, Phone, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const Contact: React.FC = () => {
       icon: Mail,
       label: 'Электрондық пошта',
       value: 'nurzipatorebek02@gmail.com',
-      link: 'nurzipatorebek02@gmail.com'
+      link: 'mailto:nurzipatorebek02@gmail.com'
     },
     {
       icon: Phone,

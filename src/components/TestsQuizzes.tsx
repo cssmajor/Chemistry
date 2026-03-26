@@ -258,7 +258,7 @@ const TestsQuizzes: React.FC = () => {
         ) : (
           filteredTests.map((test) => {
             const Icon = getTestIcon(test.type);
-            const hasLink = test.type === 'link' ? test.url : test.url;
+            const hasLink = !!test.url;
             const hasQuestions = test.questions && test.questions.length > 0;
 
             return (
@@ -296,7 +296,7 @@ const TestsQuizzes: React.FC = () => {
                   </button>
                 ) : hasLink ? (
                   <a
-                    href={test.type === 'link' ? test.url : test.url}
+                    href={test.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"

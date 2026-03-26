@@ -64,7 +64,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete, onT
       <div className="flex space-x-2">
         <button
           onClick={onToggleType}
-          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-all"
+          className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-all"
           title="Тест түрін өзгерту"
         >
           <ArrowRightLeft className="w-4 h-4" />
