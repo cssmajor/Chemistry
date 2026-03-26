@@ -45,7 +45,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
           </div>
 
           <h1 className="text-2xl font-bold text-center text-gray-900 mb-2">
-            Әкімші кіру
+            Әкімші панелі
           </h1>
           <p className="text-center text-gray-600 mb-8">
             Әкімші панеліне қол жеткізу үшін кіріңіз
