@@ -55,15 +55,15 @@ const VideosView: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)' }}>
           Видео лекциялар
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Жоғары сапалы видео лекциялар арқылы өз қарқыныңызбен оқыңыз.
         </p>
       </div>
 
-      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
@@ -86,7 +86,7 @@ const VideosView: React.FC = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex gap-4 items-center">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -95,10 +95,10 @@ const VideosView: React.FC = () => {
               placeholder="Видеоларды іздеу..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
           </div>
-          <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
+          <div className="text-sm text-gray-600 dark:text-gray-300 font-medium whitespace-nowrap">
             {filteredVideos.length} видео
           </div>
         </div>
@@ -106,12 +106,12 @@ const VideosView: React.FC = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredVideos.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-200 col-span-full">
-            <p className="text-gray-500 text-lg">Видеолар табылмады.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm border border-gray-200 dark:border-gray-700 col-span-full">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Видеолар табылмады.</p>
           </div>
         ) : (
           filteredVideos.map((video) => (
-            <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
+            <div key={video.id} className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
               <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100">
                 {video.thumbnail ? (
                   <img
@@ -142,10 +142,10 @@ const VideosView: React.FC = () => {
               </div>
 
               <div className="p-5 space-y-3">
-                <h3 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 transition-colors">
                   {video.title}
                 </h3>
-                <p className="text-sm text-gray-600 line-clamp-3">{video.description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">{video.description}</p>
 
                 {sanitizeUrl(video.url) && (
                   <a

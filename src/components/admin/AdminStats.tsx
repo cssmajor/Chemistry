@@ -202,7 +202,7 @@ const AdminStats: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Статистика</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Статистика</h2>
         <button
           onClick={fetchStats}
           className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:shadow-lg transition-all"
@@ -213,51 +213,51 @@ const AdminStats: React.FC = () => {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-4">
             <div className="p-3 bg-blue-100 rounded-xl">
               <Users className="w-8 h-8 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-medium">Бірегей пайдаланушылар</p>
-              <p className="text-3xl font-bold text-gray-900">{uniqueSessions}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Бірегей пайдаланушылар</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{uniqueSessions}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-4">
             <div className="p-3 bg-green-100 rounded-xl">
               <Eye className="w-8 h-8 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-medium">Жалпы көрінімдер</p>
-              <p className="text-3xl font-bold text-gray-900">{totalPageViews}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Жалпы көрінімдер</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalPageViews}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-4">
             <div className="p-3 bg-purple-100 rounded-xl">
               <MousePointer className="w-8 h-8 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-medium">Жалпы басулар</p>
-              <p className="text-3xl font-bold text-gray-900">{totalClicks}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Жалпы басулар</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalClicks}</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-2 mb-4">
             <TrendingUp className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-semibold text-gray-900">Ең көп кіретін бөлімдер</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Ең көп кіретін бөлімдер</h3>
           </div>
           {topSections.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">Деректер жоқ</p>
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">Деректер жоқ</p>
           ) : (
             <div className="space-y-3">
               {topSections.map((section, index) => (
@@ -266,28 +266,28 @@ const AdminStats: React.FC = () => {
                     {index + 1}
                   </span>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{getSectionLabel(section.section)}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{getSectionLabel(section.section)}</p>
                   </div>
-                  <span className="text-gray-600 font-semibold">{section.count}</span>
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">{section.count}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-2 mb-4">
             <MousePointer className="w-5 h-5 text-green-600" />
-            <h3 className="text-lg font-semibold text-gray-900">Басулар түрі бойынша</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Басулар түрі бойынша</h3>
           </div>
           {clicksByType.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">Деректер жоқ</p>
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">Деректер жоқ</p>
           ) : (
             <div className="space-y-3">
               {clicksByType.map((type) => (
                 <div key={type.item_type} className="flex items-center justify-between">
-                  <span className="font-medium text-gray-900">{getTypeLabel(type.item_type)}</span>
-                  <span className="text-gray-600 font-semibold">{type.count}</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{getTypeLabel(type.item_type)}</span>
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">{type.count}</span>
                 </div>
               ))}
             </div>
@@ -295,19 +295,19 @@ const AdminStats: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-2 mb-4">
           <BarChart3 className="w-5 h-5 text-purple-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Соңғы 7 күндегі белсенділік</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Соңғы 7 күндегі белсенділік</h3>
         </div>
         <div className="space-y-3">
           {dailyActivity.map((day) => (
             <div key={day.date} className="space-y-1">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 font-medium">{formatDate(day.date)}</span>
-                <span className="text-gray-900 font-semibold">{day.count}</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">{formatDate(day.date)}</span>
+                <span className="text-gray-900 dark:text-white font-semibold">{day.count}</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-blue-600 to-green-600 h-2 rounded-full transition-all"
                   style={{ width: `${(day.count / maxDailyCount) * 100}%` }}
@@ -318,13 +318,13 @@ const AdminStats: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-2 mb-4">
           <TrendingUp className="w-5 h-5 text-orange-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Ең көп ашылған материалдар (Топ 10)</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Ең көп ашылған материалдар (Топ 10)</h3>
         </div>
         {topItems.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">Деректер жоқ</p>
+          <p className="text-gray-500 dark:text-gray-400 text-center py-4">Деректер жоқ</p>
         ) : (
           <div className="space-y-3">
             {topItems.map((item, index) => (
@@ -333,10 +333,10 @@ const AdminStats: React.FC = () => {
                   {index + 1}
                 </span>
                 <div className="flex-1">
-                  <p className="font-medium text-gray-900 line-clamp-1">{item.item_title}</p>
-                  <p className="text-xs text-gray-500">{getTypeLabel(item.item_type)}</p>
+                  <p className="font-medium text-gray-900 dark:text-white line-clamp-1">{item.item_title}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{getTypeLabel(item.item_type)}</p>
                 </div>
-                <span className="text-gray-600 font-semibold">{item.count}</span>
+                <span className="text-gray-600 dark:text-gray-300 font-semibold">{item.count}</span>
               </div>
             ))}
           </div>
