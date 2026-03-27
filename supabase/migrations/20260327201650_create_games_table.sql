@@ -37,17 +37,29 @@ CREATE POLICY "Authenticated admins can insert games"
   ON games
   FOR INSERT
   TO authenticated
-  WITH CHECK ((auth.jwt()->>'role')::text = 'admin');
+  WITH CHECK (
+    (auth.jwt() -> 'app_metadata' ->> 'role' = 'admin') OR
+    (auth.jwt() -> 'user_metadata' ->> 'role' = 'admin')
+  );
 
 CREATE POLICY "Authenticated admins can update games"
   ON games
   FOR UPDATE
   TO authenticated
-  USING ((auth.jwt()->>'role')::text = 'admin')
-  WITH CHECK ((auth.jwt()->>'role')::text = 'admin');
+  USING (
+    (auth.jwt() -> 'app_metadata' ->> 'role' = 'admin') OR
+    (auth.jwt() -> 'user_metadata' ->> 'role' = 'admin')
+  )
+  WITH CHECK (
+    (auth.jwt() -> 'app_metadata' ->> 'role' = 'admin') OR
+    (auth.jwt() -> 'user_metadata' ->> 'role' = 'admin')
+  );
 
 CREATE POLICY "Authenticated admins can delete games"
   ON games
   FOR DELETE
   TO authenticated
-  USING ((auth.jwt()->>'role')::text = 'admin');
+  USING (
+    (auth.jwt() -> 'app_metadata' ->> 'role' = 'admin') OR
+    (auth.jwt() -> 'user_metadata' ->> 'role' = 'admin')
+  );
