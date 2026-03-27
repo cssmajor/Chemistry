@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { LogOut, BookOpen, Video, FileText, BarChart, Briefcase } from 'lucide-react';
+import { LogOut, BookOpen, Video, FileText, BarChart, Briefcase, Gamepad2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AdminMaterials from './admin/AdminMaterials';
 import AdminVideos from './admin/AdminVideos';
 import AdminTests from './admin/AdminTests';
 import AdminCases from './admin/AdminCases';
+import AdminGames from './admin/AdminGames';
 
-type AdminSection = 'materials' | 'videos' | 'tests' | 'cases' | 'stats';
+type AdminSection = 'materials' | 'videos' | 'tests' | 'cases' | 'games' | 'stats';
 
 const AdminDashboard: React.FC = () => {
   const [activeSection, setActiveSection] = useState<AdminSection>('materials');
@@ -30,6 +31,8 @@ const AdminDashboard: React.FC = () => {
         return <AdminTests />;
       case 'cases':
         return <AdminCases />;
+      case 'games':
+        return <AdminGames />;
       case 'stats':
         return (
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
@@ -106,6 +109,17 @@ const AdminDashboard: React.FC = () => {
               >
                 <Briefcase className="w-5 h-5" />
                 <span>Жобалар</span>
+              </button>
+              <button
+                onClick={() => setActiveSection('games')}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
+                  activeSection === 'games'
+                    ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <Gamepad2 className="w-5 h-5" />
+                <span>Ойындар</span>
               </button>
               <button
                 onClick={() => setActiveSection('stats')}

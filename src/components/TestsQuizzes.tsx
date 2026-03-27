@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Link as LinkIcon, ExternalLink, Search, CheckCircle, XCircle, Book } from 'lucide-react';
+import { FileText, Link as LinkIcon, ExternalLink, Search, CheckCircle, XCircle, Book, Gamepad2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { sanitizeUrl } from '../lib/sanitize';
 import { CustomTest, TestQuestion } from '../types';
 
+interface GameItem {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
 const TestsQuizzes: React.FC = () => {
   const [tests, setTests] = useState<CustomTest[]>([]);
-  const [activeTab, setActiveTab] = useState<'lecture' | 'labwork'>('lecture');
+  const [games, setGames] = useState<GameItem[]>([]);
+  const [activeTab, setActiveTab] = useState<'lecture' | 'labwork' | 'games'>('lecture');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTest, setSelectedTest] = useState<CustomTest | null>(null);
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    fetchTests();
+    if (activeTab === 'games') {
+      fetchGames();
+    } else {
+      fetchTests();
+    }
   }, [activeTab]);
 
   const fetchTests = async () => {
@@ -37,6 +49,19 @@ const TestsQuizzes: React.FC = () => {
         uploadDate: t.upload_date,
         questions: t.questions || []
       })));
+    }
+  };
+
+  const fetchGames = async () => {
+    const { data, error } = await supabase
+      .from('games')
+      .select('*')
+      .order('order_index', { ascending: true });
+
+    if (error) {
+      setGames([]);
+    } else if (data) {
+      setGames(data);
     }
   };
 
@@ -215,7 +240,7 @@ const TestsQuizzes: React.FC = () => {
         </p>
       </div>
 
-      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200 max-w-md mx-auto">
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200 max-w-2xl mx-auto">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
@@ -236,6 +261,16 @@ const TestsQuizzes: React.FC = () => {
         >
           Зертханалық жұмыс тесттері
         </button>
+        <button
+          onClick={() => setActiveTab('games')}
+          className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'games'
+              ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+        >
+          Ойындар
+        </button>
       </div>
 
       <div className="max-w-2xl mx-auto">
@@ -252,7 +287,43 @@ const TestsQuizzes: React.FC = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTests.length === 0 ? (
+        {activeTab === 'games' ? (
+          games.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-gray-500">
+              Ойындар жоқ
+            </div>
+          ) : (
+            games.map((game) => (
+              <div
+                key={game.id}
+                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div className="flex items-start space-x-3 mb-4">
+                  <div className="p-2 rounded-lg bg-purple-100">
+                    <Gamepad2 className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{game.title}</h3>
+                  </div>
+                </div>
+
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{game.description}</p>
+
+                {sanitizeUrl(game.link) && (
+                  <a
+                    href={sanitizeUrl(game.link)!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"
+                  >
+                    <Gamepad2 className="w-4 h-4" />
+                    <span>Ойнау</span>
+                  </a>
+                )}
+              </div>
+            ))
+          )
+        ) : filteredTests.length === 0 ? (
           <div className="col-span-full text-center py-12 text-gray-500">
             {searchQuery ? 'Тест табылмады' : 'Тесттер жоқ'}
           </div>
