@@ -71,7 +71,7 @@ const CasesView: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'videos'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Жоба видеолары
@@ -81,7 +81,7 @@ const CasesView: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'presentations'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Презентациялар
@@ -91,7 +91,7 @@ const CasesView: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'pdfs'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           PDF файлдар
@@ -101,14 +101,14 @@ const CasesView: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'images'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Суреттер
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex gap-4 items-center">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -117,10 +117,10 @@ const CasesView: React.FC = () => {
               placeholder="Жобаларды іздеу..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
-          <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
+          <div className="text-sm text-gray-600 dark:text-gray-300 font-medium whitespace-nowrap">
             {filteredCases.length} жоба
           </div>
         </div>
@@ -128,15 +128,15 @@ const CasesView: React.FC = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCases.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-200 col-span-full">
-            <p className="text-gray-500 text-lg">Жобалар табылмады.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm border border-gray-200 dark:border-gray-700 col-span-full">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Жобалар табылмады.</p>
           </div>
         ) : (
           filteredCases.map((caseItem) => {
             if (activeTab === 'videos') {
               const thumbnail = getYouTubeThumbnail(caseItem.link);
               return (
-                <div key={caseItem.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
+                <div key={caseItem.id} className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
                   <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100">
                     {thumbnail ? (
                       <img
@@ -166,10 +166,10 @@ const CasesView: React.FC = () => {
                     )}
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                       {caseItem.title}
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">{caseItem.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{caseItem.description}</p>
                   </div>
                 </div>
               );
@@ -177,8 +177,8 @@ const CasesView: React.FC = () => {
 
             if (activeTab === 'presentations' || activeTab === 'pdfs') {
               return (
-                <div key={caseItem.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
-                  <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100 flex items-center justify-center">
+                <div key={caseItem.id} className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
+                  <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-100 to-green-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center">
                     {activeTab === 'presentations' ? (
                       <Presentation className="w-20 h-20 text-blue-600 opacity-50" />
                     ) : (
@@ -186,10 +186,10 @@ const CasesView: React.FC = () => {
                     )}
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
                       {caseItem.title}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">{caseItem.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{caseItem.description}</p>
                     {sanitizeUrl(caseItem.link) && (
                       <a
                         href={sanitizeUrl(caseItem.link)!}
@@ -223,10 +223,10 @@ const CasesView: React.FC = () => {
                     )}
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
                       {caseItem.title}
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">{caseItem.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{caseItem.description}</p>
                   </div>
                 </div>
               );

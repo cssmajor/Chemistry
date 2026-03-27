@@ -45,14 +45,14 @@ const SortableItem: React.FC<SortableItemProps> = ({ caseItem, onEdit, onDelete 
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white border border-gray-200 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
+      className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
         <GripVertical className="w-5 h-5 text-gray-400" />
       </div>
       <div className="flex-1">
-        <h3 className="font-semibold text-gray-900">{caseItem.title}</h3>
-        <p className="text-sm text-gray-600 line-clamp-1">{caseItem.description}</p>
+        <h3 className="font-semibold text-gray-900 dark:text-white">{caseItem.title}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">{caseItem.description}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -238,7 +238,7 @@ const AdminCases: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Жобаларды басқару</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Жобаларды басқару</h2>
         <button
           onClick={() => setShowAddForm(true)}
           className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:shadow-lg transition-all"
@@ -254,7 +254,7 @@ const AdminCases: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'videos'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Жоба видеолары
@@ -264,7 +264,7 @@ const AdminCases: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'presentations'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Презентациялар
@@ -274,7 +274,7 @@ const AdminCases: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'pdfs'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           PDF файлдар
@@ -284,7 +284,7 @@ const AdminCases: React.FC = () => {
           className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
             activeTab === 'images'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Суреттер
@@ -292,8 +292,8 @@ const AdminCases: React.FC = () => {
       </div>
 
       {showAddForm && (
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             {editingId ? 'Жобаны өңдеу' : 'Жаңа жоба қосу'}
           </h3>
           {errorMsg && (
@@ -303,33 +303,33 @@ const AdminCases: React.FC = () => {
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Атауы</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Атауы</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Сипаттама</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Сипаттама</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 rows={3}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Сілтеме</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Сілтеме</label>
               <input
                 type="url"
                 value={formData.link}
                 onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder={getPlaceholder()}
                 required
               />
@@ -346,7 +346,7 @@ const AdminCases: React.FC = () => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
               >
                 <X className="w-4 h-4" />
                 <span>Болдырмау</span>
@@ -356,8 +356,8 @@ const AdminCases: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
           {activeTab === 'videos' && 'Жоба видеолары'}
           {activeTab === 'presentations' && 'Презентациялар'}
           {activeTab === 'pdfs' && 'PDF файлдар'}
@@ -365,7 +365,7 @@ const AdminCases: React.FC = () => {
           {' '}({cases.length})
         </h3>
         {cases.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">Жобалар табылмады.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-center py-8">Жобалар табылмады.</p>
         ) : (
           <DndContext
             sensors={sensors}

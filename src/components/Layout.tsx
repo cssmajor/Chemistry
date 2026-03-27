@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Atom, BookOpen, FileText, Mail, Menu, X, Video, Shield, Briefcase } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Atom, BookOpen, FileText, Mail, Menu, X, Video, Shield, Briefcase, Moon, Sun } from 'lucide-react';
 import { Section } from '../types';
 
 interface LayoutProps {
@@ -11,6 +11,17 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChange, onAdminClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   const navItems = [
     { key: 'home' as Section, label: 'Басты бет', icon: Atom },
@@ -90,9 +101,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
       </div>
       
       {/* Content Overlay */}
-      <div className="relative z-10 min-h-screen bg-gradient-to-br from-white/95 via-blue-50/90 to-green-50/95 backdrop-blur-sm">
+      <div className="relative z-10 min-h-screen bg-gradient-to-br from-white/95 via-blue-50/90 to-green-50/95 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 backdrop-blur-sm">
         {/* Fixed Header */}
-        <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg z-50 border-b border-white/20">
+        <header className="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg z-50 border-b border-white/20 dark:border-gray-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               {/* Logo */}
@@ -105,7 +116,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                 </div>
                 <div>
                   <h1 className="text-base font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Нұрзипа Химия</h1>
-                  <p className="text-xs text-gray-600">Интерактивті оқыту платформасы</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Интерактивті оқыту платформасы</p>
                 </div>
               </button>
 
@@ -120,7 +131,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                       className={`flex items-center space-x-2 px-3 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 font-medium text-sm ${
                         currentSection === item.key
                           ? 'bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 text-white shadow-lg'
-                          : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-blue-600 hover:shadow-md'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-blue-600 hover:shadow-md'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -128,6 +139,12 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                     </button>
                   );
                 })}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-yellow-400 hover:scale-105 transition-all"
+                >
+                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
                 {onAdminClick && (
                   <button
                     onClick={onAdminClick}
@@ -139,13 +156,21 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                 )}
               </nav>
 
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="xl:hidden p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all duration-300 hover:scale-105"
-              >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+              {/* Mobile menu button and dark mode toggle */}
+              <div className="xl:hidden flex items-center space-x-2">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-yellow-400 hover:scale-105 transition-all"
+                >
+                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-105"
+                >
+                  {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+              </div>
             </div>
 
             {/* Mobile Navigation */}
@@ -162,7 +187,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                       className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 hover:scale-105 font-medium ${
                         currentSection === item.key
                           ? 'bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 text-white shadow-md'
-                          : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-blue-600'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-blue-600'
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -193,7 +218,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
         </main>
 
         {/* Footer */}
-        <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-8 mt-16 relative">
+        <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:bg-gray-950 text-white py-8 mt-16 relative">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center relative z-10">

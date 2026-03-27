@@ -46,7 +46,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete, onT
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white border border-gray-200 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
+      className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
         <GripVertical className="w-5 h-5 text-gray-400" />
@@ -58,9 +58,9 @@ const SortableItem: React.FC<SortableItemProps> = ({ test, onEdit, onDelete, onT
           ) : (
             <LinkIcon className="w-4 h-4 text-green-600" />
           )}
-          <h3 className="font-semibold text-gray-900">{test.title}</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">{test.title}</h3>
         </div>
-        <p className="text-sm text-gray-600">{test.description}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">{test.description}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -332,7 +332,7 @@ const AdminTests: React.FC = () => {
         </div>
       )}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Тесттерді басқару</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Тесттерді басқару</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
@@ -342,13 +342,13 @@ const AdminTests: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'lecture'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Дәріс тесттері
@@ -358,7 +358,7 @@ const AdminTests: React.FC = () => {
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'labwork'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Зертханалық жұмыс тесттері
@@ -366,9 +366,9 @@ const AdminTests: React.FC = () => {
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 space-y-4">
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Тест түрі</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Тест түрі</label>
             <div className="flex space-x-4">
               <label className="flex items-center space-x-2">
                 <input
@@ -400,22 +400,22 @@ const AdminTests: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Тест атауы</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Тест атауы</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Сипаттама</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Сипаттама</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               rows={2}
               required
             />
@@ -423,23 +423,23 @@ const AdminTests: React.FC = () => {
 
           {formData.type === 'handwritten' ? (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Тест мәтіні</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Тест мәтіні</label>
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 rows={6}
                 placeholder="Тест сұрақтарын жазыңыз..."
               />
             </div>
           ) : (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Тест сілтемесі</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Тест сілтемесі</label>
               <input
                 type="url"
                 value={formData.file_link}
                 onChange={(e) => setFormData({ ...formData, file_link: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="https://forms.google.com/..."
               />
             </div>
@@ -447,7 +447,7 @@ const AdminTests: React.FC = () => {
 
           <div className="border-t pt-4">
             <div className="flex justify-between items-center mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Сұрақтар мен жауап нұсқалары
               </label>
               <button
@@ -463,9 +463,9 @@ const AdminTests: React.FC = () => {
             {formData.questions.length > 0 && (
               <div className="space-y-4">
                 {formData.questions.map((q, qIndex) => (
-                  <div key={qIndex} className="bg-gray-50 p-4 rounded-lg space-y-3 border border-gray-200">
+                  <div key={qIndex} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg space-y-3 border border-gray-200 dark:border-gray-600">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-semibold text-gray-700">Сұрақ {qIndex + 1}</span>
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Сұрақ {qIndex + 1}</span>
                       <button
                         type="button"
                         onClick={() => removeQuestion(qIndex)}
@@ -476,19 +476,19 @@ const AdminTests: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Сұрақ мәтіні</label>
+                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Сұрақ мәтіні</label>
                       <input
                         type="text"
                         placeholder="Сұрақты жазыңыз..."
                         value={q.question}
                         onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                       />
                     </div>
 
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <label className="block text-xs font-medium text-gray-600">Жауап нұсқалары</label>
+                        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">Жауап нұсқалары</label>
                         <button
                           type="button"
                           onClick={() => addOption(qIndex)}
@@ -514,7 +514,7 @@ const AdminTests: React.FC = () => {
                               placeholder={`Нұсқа ${oIndex + 1}`}
                               value={option}
                               onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
-                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             />
                             {q.options.length > 2 && (
                               <button
@@ -528,11 +528,11 @@ const AdminTests: React.FC = () => {
                           </div>
                         ))}
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Дұрыс жауапты белгілеу үшін радио батырманы басыңыз</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Дұрыс жауапты белгілеу үшін радио батырманы басыңыз</p>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                         <LinkIcon className="w-3 h-3 inline mr-1" />
                         Қосымша материалдар сілтемесі (міндетті емес)
                       </label>
@@ -541,7 +541,7 @@ const AdminTests: React.FC = () => {
                         placeholder="https://..."
                         value={q.additional_materials_link || ''}
                         onChange={(e) => updateQuestion(qIndex, 'additional_materials_link', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                       />
                     </div>
                   </div>
@@ -554,7 +554,7 @@ const AdminTests: React.FC = () => {
             <button
               type="button"
               onClick={resetForm}
-              className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors font-medium"
+              className="px-6 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors font-medium"
             >
               Бас тарту
             </button>
@@ -569,11 +569,11 @@ const AdminTests: React.FC = () => {
         </form>
       )}
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Барлық тесттер ({tests.length})
         </h3>
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           Тесттерді қайта реттеу үшін оларды сүйреңіз
         </p>
         <DndContext

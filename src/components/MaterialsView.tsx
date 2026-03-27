@@ -101,21 +101,21 @@ const MaterialsView: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
           Материалдар
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Тараулар мен тақырыптар бойынша ұйымдастырылған барлық химия оқу материалдарыңызға қол жеткізіңіз.
         </p>
       </div>
 
-      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'lecture'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Дәріс материалдары
@@ -125,29 +125,29 @@ const MaterialsView: React.FC = () => {
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'labwork'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
           Зертханалық жұмыс материалдары
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex gap-4 mb-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
             <input
               type="text"
               placeholder="Материалдарды іздеу..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="text-sm text-gray-600 font-medium">
+          <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">
             {filteredMaterials.length} материал табылды
           </div>
           <div className="flex space-x-2">
@@ -156,7 +156,7 @@ const MaterialsView: React.FC = () => {
               className={`p-2 rounded-lg transition-all ${
                 viewMode === 'grid'
                   ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
@@ -171,7 +171,7 @@ const MaterialsView: React.FC = () => {
               className={`p-2 rounded-lg transition-all ${
                 viewMode === 'list'
                   ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <div className="w-4 h-4 flex flex-col space-y-1">
@@ -186,24 +186,24 @@ const MaterialsView: React.FC = () => {
 
       <div className={viewMode === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
         {filteredMaterials.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-200 col-span-full">
-            <p className="text-gray-500 text-lg">Сіздің критерийлеріңізге сәйкес материалдар табылмады.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm border border-gray-200 dark:border-gray-700 col-span-full">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Сіздің критерийлеріңізге сәйкес материалдар табылмады.</p>
           </div>
         ) : (
           filteredMaterials.map((material) => (
-            <div key={material.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300">
+            <div key={material.id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-blue-200 dark:hover:border-blue-500 transition-all duration-300">
               {viewMode === 'grid' ? (
                 <div className="space-y-4">
                   <div className={`p-4 rounded-xl ${getTypeColor(material.type)} flex items-center justify-center`}>
                     {getTypeIcon(material.type)}
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
                       {material.title}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{material.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">{material.description}</p>
                     <div className="space-y-2">
-                      <div className="bg-gray-50 px-3 py-1.5 rounded-lg text-center font-medium text-xs text-gray-700">{material.chapter}</div>
+                      <div className="bg-gray-50 dark:bg-gray-700 px-3 py-1.5 rounded-lg text-center font-medium text-xs text-gray-700 dark:text-gray-300">{material.chapter}</div>
                     </div>
                   </div>
                   <div className="flex justify-center">
@@ -228,12 +228,12 @@ const MaterialsView: React.FC = () => {
                       {getTypeIcon(material.type)}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-base font-semibold text-gray-900 mb-1">
+                      <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
                         {material.title}
                       </h3>
-                      <p className="text-gray-600 mb-2 text-sm">{material.description}</p>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                        <span className="bg-gray-50 px-3 py-1 rounded-lg font-medium">{material.chapter}</span>
+                      <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm">{material.description}</p>
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-lg font-medium">{material.chapter}</span>
                       </div>
                     </div>
                   </div>
