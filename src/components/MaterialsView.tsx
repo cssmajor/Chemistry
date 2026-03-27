@@ -3,6 +3,7 @@ import { FileText, Image, Video, Search, Eye, File as FileIcon } from 'lucide-re
 import { Material } from '../types';
 import { supabase } from '../lib/supabase';
 import { sanitizeUrl } from '../lib/sanitize';
+import { trackClick } from '../lib/analytics';
 
 const MaterialsView: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
@@ -211,6 +212,7 @@ const MaterialsView: React.FC = () => {
                         href={sanitizeUrl(material.link)!}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => trackClick('material', material.id, material.title, 'open')}
                         className="flex items-center justify-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
                       >
                         <Eye className="w-4 h-4" />
@@ -241,6 +243,7 @@ const MaterialsView: React.FC = () => {
                         href={sanitizeUrl(material.link)!}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => trackClick('material', material.id, material.title, 'open')}
                         className="flex items-center space-x-1.5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm font-medium shadow-sm"
                       >
                         <Eye className="w-4 h-4" />

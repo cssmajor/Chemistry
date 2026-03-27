@@ -6,6 +6,7 @@ import AdminVideos from './admin/AdminVideos';
 import AdminTests from './admin/AdminTests';
 import AdminCases from './admin/AdminCases';
 import AdminGames from './admin/AdminGames';
+import AdminStats from './admin/AdminStats';
 
 type AdminSection = 'materials' | 'videos' | 'tests' | 'cases' | 'games' | 'stats';
 
@@ -34,12 +35,7 @@ const AdminDashboard: React.FC = () => {
       case 'games':
         return <AdminGames />;
       case 'stats':
-        return (
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Статистика</h2>
-            <p className="text-gray-600">Статистика мәліметтері жақын арада қосылады.</p>
-          </div>
-        );
+        return <AdminStats />;
       default:
         return null;
     }

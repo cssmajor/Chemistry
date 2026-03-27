@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Link as LinkIcon, ExternalLink, Search, CheckCircle, XCircle, Book, Gamepad2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { sanitizeUrl } from '../lib/sanitize';
+import { trackClick } from '../lib/analytics';
 import { CustomTest, TestQuestion } from '../types';
 
 interface GameItem {
@@ -314,6 +315,7 @@ const TestsQuizzes: React.FC = () => {
                     href={sanitizeUrl(game.link)!}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackClick('game', game.id, game.title, 'play')}
                     className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"
                   >
                     <Gamepad2 className="w-4 h-4" />
@@ -360,7 +362,10 @@ const TestsQuizzes: React.FC = () => {
 
                 {hasQuestions ? (
                   <button
-                    onClick={() => setSelectedTest(test)}
+                    onClick={() => {
+                      trackClick('test', test.id, test.title, 'start');
+                      setSelectedTest(test);
+                    }}
                     className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"
                   >
                     <FileText className="w-4 h-4" />
@@ -371,6 +376,7 @@ const TestsQuizzes: React.FC = () => {
                     href={sanitizeUrl(test.url)!}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackClick('test', test.id, test.title, 'start')}
                     className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 font-medium"
                   >
                     <ExternalLink className="w-4 h-4" />

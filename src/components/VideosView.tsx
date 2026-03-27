@@ -3,6 +3,7 @@ import { Play, Search } from 'lucide-react';
 import { VideoItem } from '../types';
 import { supabase } from '../lib/supabase';
 import { sanitizeUrl } from '../lib/sanitize';
+import { trackClick } from '../lib/analytics';
 
 const VideosView: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
@@ -129,6 +130,7 @@ const VideosView: React.FC = () => {
                       href={sanitizeUrl(video.url)!}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackClick('video', video.id, video.title, 'open')}
                       className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300"
                     >
                       <div className="bg-white rounded-full p-4 shadow-lg">
@@ -150,6 +152,7 @@ const VideosView: React.FC = () => {
                     href={sanitizeUrl(video.url)!}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackClick('video', video.id, video.title, 'open')}
                     className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-green-500 text-white py-2.5 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all duration-200 font-medium shadow-sm"
                   >
                     <Play className="w-4 h-4" />

@@ -3,6 +3,7 @@ import { Play, Search, FileText, Image, Presentation } from 'lucide-react';
 import { CaseItem } from '../types';
 import { supabase } from '../lib/supabase';
 import { sanitizeUrl } from '../lib/sanitize';
+import { trackClick } from '../lib/analytics';
 
 const CasesView: React.FC = () => {
   const [cases, setCases] = useState<CaseItem[]>([]);
@@ -154,6 +155,7 @@ const CasesView: React.FC = () => {
                           href={sanitizeUrl(caseItem.link)!}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => trackClick('case', caseItem.id, caseItem.title, 'open')}
                           className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300"
                         >
                           <div className="bg-white rounded-full p-4 shadow-lg">
@@ -193,6 +195,7 @@ const CasesView: React.FC = () => {
                         href={sanitizeUrl(caseItem.link)!}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => trackClick('case', caseItem.id, caseItem.title, 'open')}
                         className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:shadow-lg transition-all"
                       >
                         Ашу

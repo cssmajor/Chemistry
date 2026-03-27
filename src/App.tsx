@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import Home from './components/Home';
@@ -10,11 +10,18 @@ import Contact from './components/Contact';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import { Section } from './types';
+import { trackPageView } from './lib/analytics';
 
 const AppContent: React.FC = () => {
   const { user, isAdmin, loading } = useAuth();
   const [currentSection, setCurrentSection] = useState<Section>('home');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
+
+  useEffect(() => {
+    if (!user || !isAdmin) {
+      trackPageView(currentSection);
+    }
+  }, [currentSection, user, isAdmin]);
 
   const handleAdminClick = () => {
     setShowAdminLogin(true);
