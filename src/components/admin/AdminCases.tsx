@@ -157,7 +157,8 @@ const AdminCases: React.FC = () => {
           })
           .eq('id', editingId);
 
-        if (error) throw error;
+if (error) throw error;
+if (!data || data.length === 0) throw new Error('No data returned — RLS may have blocked the insert.');
       } else {
         const { error } = await supabase
           .from('cases')
