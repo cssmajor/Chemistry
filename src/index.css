@@ -1,21 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Nunito:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --font-heading: 'Unbounded', sans-serif;
-  --font-body: 'Nunito', sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-}
 
 @keyframes fadeIn {
   from {

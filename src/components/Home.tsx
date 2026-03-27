@@ -48,21 +48,21 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
             <span className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 bg-clip-text text-transparent">Қош келдіңіздер!</span>
           </h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
             Интербелсенді оқыту платформасына
           </h2>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Бұл сайт химия пәнінен білім алуға арналған. Есімім Төребек Нұрзипа Бақытбекқызы.
             Химия пәні мұғалімімін және әрбір студент үшін химияны қолжетімді және қызықты ету менің құштарлығым.
           </p>
         </div>
 
-        <div className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center mb-4">Химия мұғалімі туралы</h2>
-          <div className="grid md:grid-cols-2 gap-4 md:gap-6 text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold text-gray-900 text-center mb-4">Химия мұғалімі туралы</h2>
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6 text-gray-700 text-sm md:text-base leading-relaxed">
             <div>
               <p className="mb-3">
                 Мен өз мансабымды студенттерге химияның таңғажайып әлемін ашуға көмектесуге арнадым. Менің тәсілім дәстүрлі оқыту әдістерін заманауи, интерактивті техникалармен біріктіріп, күрделі ұғымдарды түсінуге оңай етеді.
@@ -89,12 +89,12 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div key={index} className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-4 md:p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 md:p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="bg-gradient-to-r from-blue-600 to-green-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>
+                <div className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-gray-600">{stat.label}</div>
               </div>
             );
           })}
@@ -104,8 +104,8 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
       {/* Features Section */}
       <section className="space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">Мұнда не табасыз?</h2>
-          <p className="text-gray-600 dark:text-gray-300 text-base md:text-lg max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Мұнда не табасыз?</h2>
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Химияда табысқа жету үшін қажет барлық нәрсе: толық оқу материалдарынан және түрлі пайдалы бейнематериалдар мен жаттығу тесттеріне дейін.
           </p>
         </div>
@@ -114,12 +114,12 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <div key={index} className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
               </div>
             );
           })}
@@ -129,43 +129,43 @@ const Home: React.FC<HomeProps> = ({ onSectionChange }) => {
       {/* Key Features Section */}
       <section className="space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">Платформаның негізгі мүмкіндіктері</h2>
-          <p className="text-gray-600 dark:text-gray-300 text-base md:text-lg max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Платформаның негізгі мүмкіндіктері</h2>
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Химияны үйренуді жеңілдететін және тиімді ететін заманауи құралдар мен ресурстар.
           </p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          <div className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-blue-100 dark:bg-gray-900 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
               <BookOpen className="w-7 h-7 text-blue-600" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Толық материалдар</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm">PDF, Word, PowerPoint және басқа форматтағы оқу материалдары</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Толық материалдар</h3>
+            <p className="text-gray-600 text-xs md:text-sm">PDF, Word, PowerPoint және басқа форматтағы оқу материалдары</p>
           </div>
 
-          <div className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-green-100 dark:bg-gray-900 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
               <Award className="w-7 h-7 text-green-600" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Интерактивті тесттер</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm">Білімді тексеру үшін сауалнамалар мен жаттығу тесттері</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Интерактивті тесттер</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Білімді тексеру үшін сауалнамалар мен жаттығу тесттері</p>
           </div>
 
-          <div className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-teal-100 dark:bg-gray-900 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-teal-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
               <TrendingUp className="w-7 h-7 text-teal-600" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Прогресс қадағалау</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm">Оқу прогрессіңізді бақылау және жетістіктерді көру</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Прогресс қадағалау</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Оқу прогрессіңізді бақылау және жетістіктерді көру</p>
           </div>
 
-          <div className="bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-            <div className="bg-orange-100 dark:bg-gray-900 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+            <div className="bg-orange-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
               <Beaker className="w-7 h-7 text-orange-600" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Бейне сабақтар</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm">Көрнекі түсіндірмелер мен зертханалық жұмыстар</p>
+            <h3 className="text-base font-semibold text-gray-900 mb-1">Бейне сабақтар</h3>
+            <p className="text-gray-600 text-xs md:text-sm">Көрнекі түсіндірмелер мен зертханалық жұмыстар</p>
           </div>
         </div>
       </section>

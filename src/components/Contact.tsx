@@ -93,10 +93,10 @@ const Contact: React.FC = () => {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
           Байланыс
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Химия ұғымдары туралы сұрақтарыңыз бар ма, үй тапсырмасына көмек керек пе, немесе прогрессіңізді талқылағыңыз келе ме? Мен көмектесуге дайынмын!
         </p>
       </div>
@@ -105,7 +105,7 @@ const Contact: React.FC = () => {
         {/* Contact Information */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Байланыс ақпараты</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Байланыс ақпараты</h2>
             <div className="space-y-4">
               {contactInfo.map((info, index) => {
                 const Icon = info.icon;
@@ -115,8 +115,8 @@ const Contact: React.FC = () => {
                       <Icon className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{info.label}</div>
-                      <div className="text-gray-600 dark:text-gray-300 text-sm">{info.value}</div>
+                      <div className="font-medium text-gray-900">{info.label}</div>
+                      <div className="text-gray-600 text-sm">{info.value}</div>
                     </div>
                   </div>
                 );
@@ -156,7 +156,7 @@ const Contact: React.FC = () => {
 
           {/* Quick Links */}
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Жылдам сілтемелер</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Жылдам сілтемелер</h3>
             <div className="space-y-3">
               {socialLinks.map((link, index) => {
                 const Icon = link.icon;
@@ -180,7 +180,7 @@ const Contact: React.FC = () => {
         {/* Contact Form */}
         <div className="lg:col-span-2">
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Хабарлама жіберу</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Хабарлама жіберу</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="absolute opacity-0 h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
@@ -196,7 +196,7 @@ const Contact: React.FC = () => {
               {/* Name and Email Row */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Толық аты-жөні
                   </label>
                   <input
@@ -206,12 +206,12 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                     placeholder="Сіздің толық атыңыз"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Электрондық пошта мекен-жайы
                   </label>
                   <input
@@ -221,7 +221,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                     placeholder="sizdin.email@example.com"
                   />
                 </div>
@@ -229,7 +229,7 @@ const Contact: React.FC = () => {
 
               {/* Subject */}
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                   Тақырып
                 </label>
                 <select
@@ -238,7 +238,7 @@ const Contact: React.FC = () => {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 >
                   <option value="">Тақырыпты таңдаңыз...</option>
                   <option value="homework-help">Үй тапсырмасына көмек</option>
@@ -253,7 +253,7 @@ const Contact: React.FC = () => {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                   Хабарлама
                 </label>
                 <textarea
@@ -263,7 +263,7 @@ const Contact: React.FC = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
                   placeholder="Сұрағыңызды немесе мәселеңізді толық сипаттаңыз..."
                 ></textarea>
               </div>
@@ -291,44 +291,44 @@ const Contact: React.FC = () => {
 
       {/* FAQ Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Жиі қойылатын сұрақтар</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Жиі қойылатын сұрақтар</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Қосымша көмекті қалай ала аламын?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Қосымша көмекті қалай ала аламын?</h3>
+              <p className="text-gray-600 text-sm">
                 Желіде болғанда (Дүй-Жұм 10:00-18:00) хабарласыңыз, кездесу тағайындаңыз немесе біздің оқу тобы сессияларына қосылыңыз.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Үй тапсырмасы сұрақтарын электрондық поштамен жібере аламын ба?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Үй тапсырмасы сұрақтарын электрондық поштамен жібере аламын ба?</h3>
+              <p className="text-gray-600 text-sm">
                 Иә! Мен студенттерді қиналған кезде хабарласуға шақырамын. Қазіргі жұмысыңызды және нақты сұрақтарды қосыңыз.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Емтихан қайталау сессияларын ұсынасыз ба?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Емтихан қайталау сессияларын ұсынасыз ба?</h3>
+              <p className="text-gray-600 text-sm">
                 Әрине! Мен негізгі емтихандар алдында қайталау сессияларын өткіземін. Күндер мен уақыттар үшін хабарландыруларды тексеріңіз.
               </p>
             </div>
           </div>
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Қосымша ресурстарға қалай қол жеткізуге болады?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Қосымша ресурстарға қалай қол жеткізуге болады?</h3>
+              <p className="text-gray-600 text-sm">
                 Барлық материалдар Материалдар бөлімінде қолжетімді. Мен сондай-ақ пайдалы онлайн ресурстарға сілтемелер беремін.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Ата-аналар сізбен байланыса ала ма?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Ата-аналар сізбен байланыса ала ма?</h3>
+              <p className="text-gray-600 text-sm">
                 Иә, мен ата-аналардың балаларының прогрессі және кез келген алаңдаушылықтары туралы хабарласуын қарсы аламын.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Сабаққа дайындалудың ең жақсы жолы қандай?</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <h3 className="font-semibold text-gray-900 mb-2">Сабаққа дайындалудың ең жақсы жолы қандай?</h3>
+              <p className="text-gray-600 text-sm">
                 Алдыңғы күннің жазбаларын қарап шығыңыз, тапсырылған оқуларды аяқтаңыз және қиын ұғымдар туралы сұрақтармен келіңіз.
               </p>
             </div>

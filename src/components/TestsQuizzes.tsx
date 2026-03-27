@@ -105,18 +105,18 @@ const TestsQuizzes: React.FC = () => {
 
     return (
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
           <button
             onClick={handleResetTest}
             className="text-blue-600 hover:text-blue-700 font-medium mb-4"
           >
             ← Артқа
           </button>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{selectedTest.title}</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">{selectedTest.description}</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedTest.title}</h2>
+          <p className="text-gray-600 mb-4">{selectedTest.description}</p>
           {showResults && (
-            <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/30 dark:to-green-900/30 border border-blue-200 dark:border-blue-700 rounded-xl p-4 mb-4">
-              <p className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-4 mb-4">
+              <p className="text-lg font-semibold text-gray-900">
                 Нәтиже: {score} / {total} дұрыс ({Math.round((score / total) * 100)}%)
               </p>
             </div>
@@ -129,21 +129,21 @@ const TestsQuizzes: React.FC = () => {
             const isCorrect = userAnswer === question.correct_option;
 
             return (
-              <div key={question.id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div key={question.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
                 <div className="flex items-start space-x-3 mb-4">
                   <span className="bg-blue-100 text-blue-700 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
                     {qIndex + 1}
                   </span>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{question.question}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">{question.question}</h3>
 
                     <div className="space-y-2">
                       {question.options.map((option: string, oIndex: number) => {
                         const isSelected = userAnswer === oIndex;
                         const isCorrectOption = oIndex === question.correct_option;
 
-                        let bgClass = 'bg-gray-50 dark:bg-gray-900 hover:bg-gray-100';
-                        let borderClass = 'border-gray-200 dark:border-gray-700';
+                        let bgClass = 'bg-gray-50 hover:bg-gray-100';
+                        let borderClass = 'border-gray-200';
                         let iconElement = null;
 
                         if (showResults) {
@@ -175,7 +175,7 @@ const TestsQuizzes: React.FC = () => {
                               disabled={showResults}
                               className="w-4 h-4 text-blue-600"
                             />
-                            <span className="flex-1 text-gray-900 dark:text-white">{option}</span>
+                            <span className="flex-1 text-gray-900">{option}</span>
                             {iconElement}
                           </button>
                         );
@@ -183,7 +183,7 @@ const TestsQuizzes: React.FC = () => {
                     </div>
 
                     {sanitizeUrl(question.additional_materials_link) && (
-                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div className="mt-4 pt-4 border-t border-gray-200">
                         <a
                           href={sanitizeUrl(question.additional_materials_link)!}
                           target="_blank"
@@ -204,7 +204,7 @@ const TestsQuizzes: React.FC = () => {
         </div>
 
         {!showResults ? (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
             <button
               onClick={handleSubmitTest}
               disabled={Object.keys(userAnswers).length !== selectedTest.questions.length}
@@ -212,12 +212,12 @@ const TestsQuizzes: React.FC = () => {
             >
               Тестті аяқтау
             </button>
-            <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
+            <p className="text-sm text-gray-500 text-center mt-2">
               Жауап берілді: {Object.keys(userAnswers).length} / {selectedTest.questions.length}
             </p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
             <button
               onClick={handleResetTest}
               className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
@@ -233,15 +233,15 @@ const TestsQuizzes: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
           Тесттер мен Викториналар
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Дәріс және зертханалық жұмыстар бойынша тесттер
         </p>
       </div>
 
-      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700 max-w-2xl mx-auto">
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200 max-w-2xl mx-auto">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
@@ -282,7 +282,7 @@ const TestsQuizzes: React.FC = () => {
             placeholder="Тесттерді іздеу..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
           />
         </div>
       </div>
@@ -290,7 +290,7 @@ const TestsQuizzes: React.FC = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {activeTab === 'games' ? (
           games.length === 0 ? (
-            <div className="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
+            <div className="col-span-full text-center py-12 text-gray-500">
               Ойындар жоқ
             </div>
           ) : (
@@ -304,11 +304,11 @@ const TestsQuizzes: React.FC = () => {
                     <Gamepad2 className="w-5 h-5 text-purple-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{game.title}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{game.title}</h3>
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{game.description}</p>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{game.description}</p>
 
                 {sanitizeUrl(game.link) && (
                   <a
@@ -326,7 +326,7 @@ const TestsQuizzes: React.FC = () => {
             ))
           )
         ) : filteredTests.length === 0 ? (
-          <div className="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
+          <div className="col-span-full text-center py-12 text-gray-500">
             {searchQuery ? 'Тест табылмады' : 'Тесттер жоқ'}
           </div>
         ) : (
@@ -345,18 +345,18 @@ const TestsQuizzes: React.FC = () => {
                     <Icon className={`w-5 h-5 ${test.type === 'handwritten' ? 'text-blue-600' : 'text-green-600'}`} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{test.title}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{test.title}</h3>
                     {hasQuestions && (
                       <p className="text-sm text-blue-600 font-medium">{test.questions.length} сұрақ</p>
                     )}
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{test.description}</p>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{test.description}</p>
 
                 {test.type === 'handwritten' && test.content && !hasQuestions && (
-                  <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 mb-4 max-h-32 overflow-y-auto">
-                    <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{test.content}</p>
+                  <div className="bg-gray-50 rounded-lg p-3 mb-4 max-h-32 overflow-y-auto">
+                    <p className="text-sm text-gray-700 whitespace-pre-wrap">{test.content}</p>
                   </div>
                 )}
 
@@ -383,7 +383,7 @@ const TestsQuizzes: React.FC = () => {
                     <span>{test.type === 'link' ? 'Тестті ашу' : 'Файлды көру'}</span>
                   </a>
                 ) : (
-                  <div className="text-center py-3 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="text-center py-3 text-sm text-gray-500">
                     Жоғарыдағы мәтінді оқыңыз
                   </div>
                 )}

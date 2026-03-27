@@ -46,14 +46,14 @@ const SortableItem: React.FC<SortableItemProps> = ({ material, onEdit, onDelete,
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
+      className="bg-white border border-gray-200 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
-        <GripVertical className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+        <GripVertical className="w-5 h-5 text-gray-400" />
       </div>
       <div className="flex-1">
-        <h3 className="font-semibold text-gray-900 dark:text-white">{material.title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300">{material.chapter}</p>
+        <h3 className="font-semibold text-gray-900">{material.title}</h3>
+        <p className="text-sm text-gray-600">{material.chapter}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -273,7 +273,7 @@ const AdminMaterials: React.FC = () => {
         </div>
       )}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Материалдарды басқару</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Материалдарды басқару</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
@@ -283,13 +283,13 @@ const AdminMaterials: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'lecture'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100'
+              : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
           Дәріс материалдары
@@ -299,7 +299,7 @@ const AdminMaterials: React.FC = () => {
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'labwork'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100'
+              : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
           Зертханалық жұмыс материалдары
@@ -307,24 +307,24 @@ const AdminMaterials: React.FC = () => {
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Атауы</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Атауы</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Түрі</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Түрі</label>
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="pdf">PDF</option>
                 <option value="doc">Word</option>
@@ -336,11 +336,11 @@ const AdminMaterials: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Тарау</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Тарау</label>
             <select
               value={formData.chapter}
               onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               {chapters.map(chapter => (
                 <option key={chapter} value={chapter}>{chapter}</option>
@@ -349,17 +349,17 @@ const AdminMaterials: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Сипаттама</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Сипаттама</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={3}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               <LinkIcon className="w-4 h-4 inline mr-1" />
               Сілтеме (Google Drive т.б.)
             </label>
@@ -367,7 +367,7 @@ const AdminMaterials: React.FC = () => {
               type="url"
               value={formData.link}
               onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://drive.google.com/..."
             />
           </div>
@@ -376,7 +376,7 @@ const AdminMaterials: React.FC = () => {
             <button
               type="button"
               onClick={resetForm}
-              className="px-6 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 transition-colors font-medium"
+              className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors font-medium"
             >
               Бас тарту
             </button>
@@ -391,11 +391,11 @@ const AdminMaterials: React.FC = () => {
         </form>
       )}
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Барлық материалдар ({materials.length})
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        <p className="text-sm text-gray-600 mb-4">
           Материалдарды қайта реттеу үшін оларды сүйреңіз
         </p>
         <DndContext

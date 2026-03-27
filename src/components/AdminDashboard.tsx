@@ -42,11 +42,11 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-blue-100">
+      <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Әкімші панелі</h1>
+            <h1 className="text-xl font-bold text-gray-900">Әкімші панелі</h1>
             <button
               onClick={handleSignOut}
               className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 font-medium"
@@ -61,13 +61,13 @@ const AdminDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <aside className="lg:col-span-1">
-            <nav className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 space-y-2">
+            <nav className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 space-y-2">
               <button
                 onClick={() => setActiveSection('materials')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'materials'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <BookOpen className="w-5 h-5" />
@@ -78,7 +78,7 @@ const AdminDashboard: React.FC = () => {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'videos'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <Video className="w-5 h-5" />
@@ -89,7 +89,7 @@ const AdminDashboard: React.FC = () => {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'tests'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <FileText className="w-5 h-5" />
@@ -100,7 +100,7 @@ const AdminDashboard: React.FC = () => {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'cases'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <Briefcase className="w-5 h-5" />
@@ -111,7 +111,7 @@ const AdminDashboard: React.FC = () => {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'games'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <Gamepad2 className="w-5 h-5" />
@@ -122,7 +122,7 @@ const AdminDashboard: React.FC = () => {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                   activeSection === 'stats'
                     ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <BarChart className="w-5 h-5" />

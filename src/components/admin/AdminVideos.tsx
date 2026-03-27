@@ -46,14 +46,14 @@ const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete, on
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
+      className="bg-white border border-gray-200 rounded-xl p-4 flex items-center space-x-4 hover:shadow-md transition-all"
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
-        <GripVertical className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+        <GripVertical className="w-5 h-5 text-gray-400" />
       </div>
       <div className="flex-1">
-        <h3 className="font-semibold text-gray-900 dark:text-white">{video.title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">{video.description}</p>
+        <h3 className="font-semibold text-gray-900">{video.title}</h3>
+        <p className="text-sm text-gray-600 line-clamp-1">{video.description}</p>
       </div>
       <div className="flex space-x-2">
         <button
@@ -317,7 +317,7 @@ const AdminVideos: React.FC = () => {
         </div>
       )}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Видеоларды басқару</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Видеоларды басқару</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-medium shadow-md"
@@ -327,13 +327,13 @@ const AdminVideos: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex space-x-2 bg-white dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="flex space-x-2 bg-white rounded-xl p-1 shadow-sm border border-gray-200">
         <button
           onClick={() => setActiveTab('lecture')}
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'lecture'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100'
+              : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
           Дәріс видеолары
@@ -343,7 +343,7 @@ const AdminVideos: React.FC = () => {
           className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'labwork'
               ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100'
+              : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
           Зертханалық жұмыс
@@ -351,40 +351,40 @@ const AdminVideos: React.FC = () => {
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Атауы</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Атауы</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Сипаттама</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Сипаттама</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={3}
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео алдын ала көрсету (PNG, JPEG)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Видео алдын ала көрсету (PNG, JPEG)</label>
             <div className="space-y-3">
               {thumbnailPreview && (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-300">
                   <img src={thumbnailPreview} alt="Preview" className="w-full h-full object-cover" />
                 </div>
               )}
-              <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors bg-gray-50 dark:bg-gray-900 hover:bg-blue-50">
-                <Upload className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
-                <span className="text-sm text-gray-600 dark:text-gray-300">Сурет жүктеу (макс. 5MB)</span>
+              <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors bg-gray-50 hover:bg-blue-50">
+                <Upload className="w-5 h-5 text-gray-500 mr-2" />
+                <span className="text-sm text-gray-600">Сурет жүктеу (макс. 5MB)</span>
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/jpg"
@@ -396,12 +396,12 @@ const AdminVideos: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео URL</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Видео URL</label>
             <input
               type="url"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://youtube.com/watch?v=..."
               required
             />
@@ -411,7 +411,7 @@ const AdminVideos: React.FC = () => {
             <button
               type="button"
               onClick={resetForm}
-              className="px-6 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 transition-colors font-medium"
+              className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors font-medium"
             >
               Бас тарту
             </button>
@@ -426,11 +426,11 @@ const AdminVideos: React.FC = () => {
         </form>
       )}
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Барлық видеолар ({videos.length})
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        <p className="text-sm text-gray-600 mb-4">
           Видеоларды қайта реттеу үшін оларды сүйреңіз
         </p>
         <DndContext
