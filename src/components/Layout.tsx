@@ -96,34 +96,34 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               {/* Logo */}
-              <button 
+              <button
                 onClick={() => handleNavClick('home')}
                 className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 transform hover:scale-105"
               >
-                <div className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 p-3 rounded-full shadow-lg">
-                  <Atom className="w-8 h-8 text-white animate-spin" style={{ animationDuration: '8s' }} />
+                <div className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 p-2 rounded-full shadow-lg">
+                  <Atom className="w-6 h-6 text-white animate-spin" style={{ animationDuration: '8s' }} />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Нұрзипа Химия</h1>
-                  <p className="text-sm text-gray-600">Интерактивті оқыту платформасы</p>
+                  <h1 className="text-base font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Нұрзипа Химия</h1>
+                  <p className="text-xs text-gray-600">Интерактивті оқыту платформасы</p>
                 </div>
               </button>
 
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center space-x-2">
+              <nav className="hidden xl:flex items-center space-x-1">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   return (
                     <button
                       key={item.key}
                       onClick={() => handleNavClick(item.key)}
-                      className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 font-medium ${
+                      className={`flex items-center space-x-2 px-3 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 font-medium text-sm ${
                         currentSection === item.key
                           ? 'bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 text-white shadow-lg'
                           : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-blue-600 hover:shadow-md'
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
                     </button>
                   );
@@ -131,9 +131,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
                 {onAdminClick && (
                   <button
                     onClick={onAdminClick}
-                    className="flex items-center space-x-2 px-4 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black transition-all duration-300 transform hover:scale-105 font-medium shadow-lg border border-gray-600"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black transition-all duration-300 transform hover:scale-105 font-medium shadow-lg border border-gray-600 text-sm"
                   >
-                    <Shield className="w-5 h-5" />
+                    <Shield className="w-4 h-4" />
                     <span>Әкімші</span>
                   </button>
                 )}
@@ -142,14 +142,14 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                className="xl:hidden p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all duration-300 hover:scale-105"
               >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
 
             {/* Mobile Navigation */}
-            <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
+            <div className={`xl:hidden transition-all duration-300 overflow-hidden ${
               isMobileMenuOpen ? 'max-h-[28rem] pb-4' : 'max-h-0'
             }`}>
               <nav className="grid grid-cols-1 gap-2">
