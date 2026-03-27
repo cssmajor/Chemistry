@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Atom, BookOpen, FileText, Mail, Menu, X, Video, Shield } from 'lucide-react';
+import { Atom, BookOpen, FileText, Mail, Menu, X, Video, Shield, Briefcase } from 'lucide-react';
 import { Section } from '../types';
 
 interface LayoutProps {
@@ -16,6 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentSection, onSectionChan
     { key: 'home' as Section, label: 'Басты бет', icon: Atom },
     { key: 'materials' as Section, label: 'Материалдар', icon: BookOpen },
     { key: 'videos' as Section, label: 'Видеолар', icon: Video },
+    { key: 'cases' as Section, label: 'Жобалар', icon: Briefcase },
     { key: 'tests' as Section, label: 'Тесттер мен Викториналар', icon: FileText },
     { key: 'contact' as Section, label: 'Байланыс', icon: Mail },
   ];

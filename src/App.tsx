@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import MaterialsView from './components/MaterialsView';
 import VideosView from './components/VideosView';
+import CasesView from './components/CasesView';
 import TestsQuizzes from './components/TestsQuizzes';
 import Contact from './components/Contact';
 import AdminLogin from './components/AdminLogin';
@@ -46,6 +47,8 @@ const AppContent: React.FC = () => {
         return <MaterialsView />;
       case 'videos':
         return <VideosView />;
+      case 'cases':
+        return <CasesView />;
       case 'tests':
         return <TestsQuizzes />;
       case 'contact':

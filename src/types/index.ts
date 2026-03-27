@@ -1,4 +1,4 @@
-export type Section = 'home' | 'materials' | 'videos' | 'tests' | 'contact';
+export type Section = 'home' | 'materials' | 'videos' | 'tests' | 'contact' | 'cases';
 
 export interface Material {
   id: number | string;
@@ -74,4 +74,15 @@ export interface CustomTest {
   uploadDate: string;
   isEditing?: boolean;
   questions?: TestQuestion[];
+}
+
+export interface CaseItem {
+  id: number | string;
+  title: string;
+  description: string;
+  link: string;
+  thumbnail?: string;
+  uploadDate: string;
+  case_type: 'videos' | 'presentations' | 'pdfs' | 'images';
+  isEditing?: boolean;
 }
