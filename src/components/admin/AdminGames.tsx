@@ -141,7 +141,7 @@ const AdminGames: React.FC = () => {
 
     try {
       if (editingId) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('games')
           .update({
             title: formData.title,
