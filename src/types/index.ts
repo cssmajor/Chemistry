@@ -10,6 +10,7 @@ export interface Material {
   size?: string;
   url?: string;
   link?: string;
+  material_type?: 'lecture' | 'labwork';
   isEditing?: boolean;
 }
 
