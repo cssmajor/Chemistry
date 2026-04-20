@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CreditCard as Edit, Trash2, GripVertical, Save, X, ArrowRightLeft, Upload } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { sanitizeUrl } from '../../lib/sanitize';
+import { sanitizeUrl, getYouTubeThumbnail } from '../../lib/sanitize';
 import { VideoItem } from '../../types';
 import {
   DndContext,
@@ -79,6 +79,23 @@ const SortableItem: React.FC<SortableItemProps> = ({ video, onEdit, onDelete, on
     </div>
   );
 };
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    let videoId: string | null = null;
+    if (parsed.hostname === 'youtu.be') {
+      videoId = parsed.pathname.slice(1);
+    } else if (parsed.hostname.includes('youtube.com')) {
+      videoId = parsed.searchParams.get('v');
+    }
+    if (!videoId) return null;
+    return `https://www.youtube.com/embed/${videoId}`;
+  } catch {
+    return null;
+  }
+}
 
 const AdminVideos: React.FC = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
@@ -375,16 +392,57 @@ const AdminVideos: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео алдын ала көрсету (PNG, JPEG)</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео URL</label>
+            <input
+              type="url"
+              value={formData.url}
+              onChange={(e) => {
+                const url = e.target.value;
+                setFormData({ ...formData, url });
+                if (!thumbnailFile && !formData.thumbnail) {
+                  const ytThumb = getYouTubeThumbnail(url);
+                  setThumbnailPreview(ytThumb || '');
+                }
+              }}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              placeholder="https://youtube.com/watch?v=..."
+              required
+            />
+          </div>
+
+          {getYouTubeEmbedUrl(formData.url) && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео алдын ала көрсету</label>
+              <div className="w-full aspect-video rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 bg-black">
+                <iframe
+                  src={getYouTubeEmbedUrl(formData.url)!}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Video preview"
+                />
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Thumbnail сурет (PNG, JPEG)</label>
             <div className="space-y-3">
-              {thumbnailPreview && (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-300">
-                  <img src={thumbnailPreview} alt="Preview" className="w-full h-full object-cover" />
+              {(thumbnailPreview || (!thumbnailFile && getYouTubeThumbnail(formData.url))) && (
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                  <img
+                    src={thumbnailPreview || getYouTubeThumbnail(formData.url)!}
+                    alt="Thumbnail preview"
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
                 </div>
               )}
               <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors bg-gray-50 dark:bg-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600">
                 <Upload className="w-5 h-5 text-gray-500 mr-2" />
-                <span className="text-sm text-gray-600 dark:text-gray-300">Сурет жүктеу (макс. 5MB)</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">
+                  {thumbnailFile ? thumbnailFile.name : 'Сурет жүктеу (макс. 5MB)'}
+                </span>
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/jpg"
@@ -393,18 +451,6 @@ const AdminVideos: React.FC = () => {
                 />
               </label>
             </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Видео URL</label>
-            <input
-              type="url"
-              value={formData.url}
-              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-              placeholder="https://youtube.com/watch?v=..."
-              required
-            />
           </div>
 
           <div className="flex justify-end space-x-3">
